@@ -2,7 +2,7 @@
 
 **Turn your Telegram Channel into a MicroBlog.**
 
----
+------
 
 English | [简体中文](./README.zh-cn.md)
 
