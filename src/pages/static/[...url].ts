@@ -6,8 +6,7 @@ export const GET: APIRoute = async ({ request, params, url }) => {
     const rawTarget = (params.url ?? '') + url.search
     return await createStaticProxyResponse(request, rawTarget)
   }
-  catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    return new Response(message, { status: 500 })
+  catch {
+    return new Response('Static proxy request failed', { status: 502 })
   }
 }

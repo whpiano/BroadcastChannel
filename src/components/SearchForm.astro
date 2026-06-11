@@ -1,0 +1,48 @@
+---
+const { action, googleSearchSite } = Astro.props
+
+const mobileSearchDetailsClass = 'group mt-3 sm:hidden'
+const searchSummaryClass =
+  'ml-auto flex h-6 w-6 list-none items-center justify-center rounded-panel bg-paper text-base leading-6 text-heading no-underline focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-heading sm:hidden [&::-webkit-details-marker]:hidden'
+const mobileSearchFormClass = 'mt-2 hidden rounded-panel bg-code p-2 text-muted group-open:block'
+const desktopSearchFormClass = 'hidden rounded-panel bg-code p-2 text-muted sm:block'
+const searchInputClass =
+  'box-border w-full rounded-panel border border-paper bg-code px-2 text-[16px] leading-[2.4] text-muted outline-none placeholder:text-muted focus-visible:border-heading focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-heading sm:text-[12px]'
+const searchLabelText = 'Search'
+---
+
+<details class={mobileSearchDetailsClass}>
+  <summary class={searchSummaryClass}>
+    <span aria-hidden="true">🔍</span>
+    <span class="sr-only">{searchLabelText}</span>
+  </summary>
+  <form class={mobileSearchFormClass} action={action} method="get" role="search" aria-label="Site search">
+    {googleSearchSite ? <input type="hidden" name="as_sitesearch" value={googleSearchSite} /> : null}
+    <label class="sr-only" for="mobile-search-query">{searchLabelText}</label>
+    <input
+      id="mobile-search-query"
+      class={searchInputClass}
+      type="search"
+      name="q"
+      placeholder="Search…"
+      autocomplete="off"
+      inputmode="search"
+      spellcheck={false}
+    />
+  </form>
+</details>
+
+<form class={desktopSearchFormClass} action={action} method="get" role="search" aria-label="Site search">
+  {googleSearchSite ? <input type="hidden" name="as_sitesearch" value={googleSearchSite} /> : null}
+  <label class="sr-only" for="desktop-search-query">{searchLabelText}</label>
+  <input
+    id="desktop-search-query"
+    class={searchInputClass}
+    type="search"
+    name="q"
+    placeholder="Search…"
+    autocomplete="off"
+    inputmode="search"
+    spellcheck={false}
+  />
+</form>

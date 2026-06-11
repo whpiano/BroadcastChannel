@@ -109,8 +109,8 @@ FOOTER_INJECT=FOOTER_INJECT
 HEADER_INJECT=HEADER_INJECT
 
 ## SEO configuration options, can prevent search engines from indexing content
-NO_FOLLOW=false
-NO_INDEX=false
+NOFOLLOW=false
+NOINDEX=false
 
 ## Hide Telegram channel description
 HIDE_DESCRIPTION=false
@@ -121,7 +121,7 @@ SENTRY_DSN=SENTRY_DSN
 SENTRY_PROJECT=SENTRY_PROJECT
 
 ## Telegram host name and static resource proxy, not recommended to modify
-HOST=telegram.dog
+TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
 
 ## Enable Google Site Search

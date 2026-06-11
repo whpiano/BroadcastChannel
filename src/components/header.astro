@@ -1,13 +1,14 @@
 ---
-import { getEnv } from '../lib/env'
 import { Icon } from 'astro-icon/components'
-import voidFile from '../assets/void.png'
+import ChannelAvatar from './ChannelAvatar.astro'
+import { getBooleanEnv, getEnv, getPodcastUrl } from '../lib/env'
+import { sanitizeContentHtml } from '../lib/html'
 import { siteTitleStyle } from '../lib/ui'
 
 const { SITE_URL, RSS_URL } = Astro.locals
 const { channel } = Astro.props
 
-const PODCASRT = getEnv(import.meta.env, Astro, 'PODCASRT')
+const PODCAST = getPodcastUrl(import.meta.env, Astro)
 const TWITTER = getEnv(import.meta.env, Astro, 'TWITTER')
 const GITHUB = getEnv(import.meta.env, Astro, 'GITHUB')
 const TELEGRAM = getEnv(import.meta.env, Astro, 'TELEGRAM')
@@ -15,8 +16,8 @@ const DISCORD = getEnv(import.meta.env, Astro, 'DISCORD')
 const MASTODON = getEnv(import.meta.env, Astro, 'MASTODON')
 const BLUESKY = getEnv(import.meta.env, Astro, 'BLUESKY')
 
-const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
-const hideDescription = getEnv(import.meta.env, Astro, 'HIDE_DESCRIPTION')
+const hideDescription = getBooleanEnv(import.meta.env, Astro, 'HIDE_DESCRIPTION')
+const descriptionHtml = channel?.descriptionHTML ? sanitizeContentHtml(channel.descriptionHTML) : ''
 
 const headerMainClass = 'mb-[10px] flex items-center p-[10px] font-semibold max-sm:p-0'
 const avatarClass = 'block h-10 w-10 rounded-full border-[3px] border-white object-cover shadow-soft'
@@ -38,8 +39,8 @@ const socialLinks = [
     rel: 'alternate noopener noreferrer',
     type: 'application/rss+xml',
   },
-  PODCASRT && {
-    href: PODCASRT,
+  PODCAST && {
+    href: PODCAST,
     title: 'Podcast',
     label: 'Podcast',
     icon: 'ri:mic-line',
@@ -98,10 +99,10 @@ const socialLinks = [
 
 <header>
   <div class={headerMainClass}>
-    <a href={SITE_URL} title={channel?.title}>
-      <img
-        src={channel?.avatar?.startsWith('http') ? staticProxy + channel?.avatar : voidFile.src}
-        alt={channel?.title}
+    <a href={SITE_URL} title={channel?.title} aria-label="Home">
+      <ChannelAvatar
+        channel={channel}
+        alt=""
         loading="eager"
         fetchpriority="high"
         width="40"
@@ -135,7 +136,7 @@ const socialLinks = [
 </header>
 
 {
-  hideDescription !== 'true' && channel?.descriptionHTML && channel?.descriptionHTML.length > 0 && (
-    <div class:list={[introClass, 'content']} set:html={channel?.descriptionHTML} />
+  !hideDescription && descriptionHtml.length > 0 && (
+    <div class:list={[introClass, 'content']} set:html={descriptionHtml} />
   )
 }

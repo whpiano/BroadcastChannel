@@ -1,30 +1,26 @@
 import type { APIRoute } from 'astro'
-import { getChannelInfo } from '../lib/telegram'
+import { getFeedData } from '../lib/feed'
+import { sanitizeFeedHtml } from '../lib/html'
 
 export const GET: APIRoute = async (context) => {
-  const { SITE_URL } = context.locals
-  const tag = context.url.searchParams.get('tag')
-  const channel = await getChannelInfo(context, {
-    q: tag ? `#${tag}` : '',
-  })
-  const posts = channel.posts ?? []
-  const requestUrl = new URL(context.request.url)
-
-  requestUrl.pathname = SITE_URL
-  requestUrl.search = ''
+  const { channel, posts, siteUrl, title } = await getFeedData(context)
 
   return Response.json({
     version: 'https://jsonfeed.org/version/1.1',
-    title: `${tag ? `${tag} | ` : ''}${channel.title}`,
+    title,
     description: channel.description,
-    home_page_url: requestUrl.toString(),
+    home_page_url: siteUrl.toString(),
     items: posts.map(item => ({
-      url: `${requestUrl.toString()}posts/${item.id}`,
+      url: new URL(`posts/${item.id}`, siteUrl).toString(),
       title: item.title,
       description: item.description,
       date_published: new Date(item.datetime),
       tags: item.tags,
-      content_html: item.content,
+      content_html: sanitizeFeedHtml(item.content),
     })),
+  }, {
+    headers: {
+      'Cache-Control': 'public, max-age=3600',
+    },
   })
 }

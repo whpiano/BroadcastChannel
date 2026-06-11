@@ -99,15 +99,15 @@ GITHUB=miantiao-me
 
 ## 下面两个社交媒体需要为 URL
 DISCORD=https://DISCORD.com
-PODCASRT=https://PODCASRT.com
+PODCAST=https://PODCAST.com
 
 ## 头部尾部代码注入，支持 HTML
 FOOTER_INJECT=FOOTER_INJECT
 HEADER_INJECT=HEADER_INJECT
 
 ## SEO 配置项，可不让搜索引擎索引内容
-NO_FOLLOW=false
-NO_INDEX=false
+NOFOLLOW=false
+NOINDEX=false
 
 ## 隐藏 Telegram 频道简介
 HIDE_DESCRIPTION=false
@@ -118,7 +118,7 @@ SENTRY_DSN=SENTRY_DSN
 SENTRY_PROJECT=SENTRY_PROJECT
 
 ## Telegram 主机名称和静态资源代理，不建议修改
-HOST=telegram.dog
+TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
 
 ## 启用谷歌站内搜索

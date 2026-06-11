@@ -29,6 +29,7 @@ export const GET: APIRoute = async (Astro) => {
   ${sitemaps.join('')}
 </sitemapindex>`, {
     headers: {
+      'Cache-Control': 'public, max-age=3600',
       'Content-Type': 'application/xml',
     },
   })

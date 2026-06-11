@@ -1,14 +1,8 @@
 ---
 import List from '../../components/list.astro'
-import { getChannelInfo } from '../../lib/telegram'
+import { getCursorPageChannel, noIndexSeo } from '../../lib/pagination'
 
-const channel = await getChannelInfo(Astro, {
-  after: Astro.params.cursor,
-})
-
-channel.seo = {
-  noindex: true,
-}
+const channel = await getCursorPageChannel(Astro, 'after')
 ---
 
-<List channel={channel} pageHeading={channel.title} />
+<List channel={channel} pageHeading={channel.title} pageSeo={noIndexSeo} />

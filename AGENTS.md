@@ -141,7 +141,7 @@ pnpm lint:fix
 - Update README docs when env behavior changes.
 - Prefer actual code usage over stale README text if they conflict.
 - Important current code-level env names include `CHANNEL`, `LOCALE`, `TIMEZONE`, `TELEGRAM_HOST`, `STATIC_PROXY`, `COMMENTS`, `REACTIONS`, `NOINDEX`, `NOFOLLOW`, `RSS_BEAUTIFY`, `TAGS`, `LINKS`, `NAVS`, `HEADER_INJECT`, and `FOOTER_INJECT`.
-- Note that `PODCASRT` is the current code-level env key in `header.astro`; keep compatibility in mind unless intentionally correcting it everywhere.
+- `PODCAST` is the preferred podcast env key; `PODCASRT` is kept as a legacy fallback for compatibility.
 
 ## 16. Build and Deployment Notes
 
