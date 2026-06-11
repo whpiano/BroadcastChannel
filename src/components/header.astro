@@ -2,8 +2,9 @@
 import { Icon } from 'astro-icon/components'
 import ChannelAvatar from './ChannelAvatar.astro'
 import { getBooleanEnv, getEnv, getPodcastUrl } from '../lib/env'
-import { sanitizeContentHtml } from '../lib/html'
-import { siteTitleStyle } from '../lib/ui'
+import { sanitizeContentHtml } from '../lib/sanitize'
+import { buildSocialLinks } from '../lib/social'
+import { siteTitleClass } from '../lib/style-classes'
 
 const { SITE_URL, RSS_URL } = Astro.locals
 const { channel } = Astro.props
@@ -19,82 +20,27 @@ const BLUESKY = getEnv(import.meta.env, Astro, 'BLUESKY')
 const hideDescription = getBooleanEnv(import.meta.env, Astro, 'HIDE_DESCRIPTION')
 const descriptionHtml = channel?.descriptionHTML ? sanitizeContentHtml(channel.descriptionHTML) : ''
 
-const headerMainClass = 'mb-[10px] flex items-center p-[10px] font-semibold max-sm:p-0'
-const avatarClass = 'block h-10 w-10 rounded-full border-[3px] border-white object-cover shadow-soft'
-const titleWrapClass = 'ml-[10px] min-w-0 flex-1 pr-[10px] text-[20px]'
-const titleLinkClass = 'text-heading no-underline hover:text-ink hover:underline'
-const iconNavClass = 'flex items-center gap-[2px]'
+const headerMainClass = 'mb-2.5 flex items-center p-2.5 font-semibold max-sm:p-0'
+const avatarClass = 'block h-10 w-10 rounded-full border-4 border-white object-cover shadow-soft'
+const titleWrapClass = 'ml-2.5 min-w-0 flex-1 pr-2.5 text-xl'
+const titleLinkClass = `text-heading no-underline hover:text-ink hover:underline ${siteTitleClass}`
+const iconNavClass = 'flex items-center gap-0.5'
 const socialLinkClass = 'group p-1 no-underline'
 const socialIconClass =
   'h-[1em] w-[1em] align-bottom [filter:var(--icon-secondary-filter)] group-hover:[filter:var(--icon-hover-filter)]'
 const introClass =
-  'mb-5 ml-[3px] break-words rounded-panel border-l-2 border-line bg-code px-5 py-[10px] text-base leading-[1.6] text-muted shadow-soft max-sm:my-5 max-sm:ml-0'
+  'mb-5 ml-1 break-words rounded-panel border-l-2 border-line bg-code px-5 py-2.5 text-base leading-[1.6] text-muted shadow-soft max-sm:my-5 max-sm:ml-0'
 
-const socialLinks = [
-  {
-    href: RSS_URL,
-    title: 'RSS Feed',
-    label: 'RSS Feed',
-    icon: 'ri:rss-line',
-    rel: 'alternate noopener noreferrer',
-    type: 'application/rss+xml',
-  },
-  PODCAST && {
-    href: PODCAST,
-    title: 'Podcast',
-    label: 'Podcast',
-    icon: 'ri:mic-line',
-    rel: 'noopener noreferrer',
-  },
-  TWITTER &&
-    TWITTER.length > 0 && {
-      href: `https://x.com/${TWITTER}`,
-      title: 'Twitter',
-      label: 'Twitter / X',
-      icon: 'ri:twitter-x-line',
-      rel: 'noopener noreferrer',
-    },
-  GITHUB &&
-    GITHUB.length > 0 && {
-      href: `https://github.com/${GITHUB}`,
-      title: 'GitHub',
-      label: 'GitHub',
-      icon: 'ri:github-line',
-      rel: 'noopener noreferrer',
-    },
-  TELEGRAM &&
-    TELEGRAM.length > 0 && {
-      href: `https://t.me/${TELEGRAM}`,
-      title: 'Telegram',
-      label: 'Telegram',
-      icon: 'ri:telegram-line',
-      rel: 'noopener noreferrer',
-    },
-  DISCORD &&
-    DISCORD.length > 0 && {
-      href: DISCORD,
-      title: 'Discord',
-      label: 'Discord',
-      icon: 'ri:discord-line',
-      rel: 'noopener noreferrer',
-    },
-  MASTODON &&
-    MASTODON.length > 0 && {
-      href: `https://${MASTODON}`,
-      title: 'Mastodon',
-      label: 'Mastodon',
-      icon: 'ri:mastodon-line',
-      rel: 'noopener noreferrer',
-    },
-  BLUESKY &&
-    BLUESKY.length > 0 && {
-      href: `https://bsky.app/profile/${BLUESKY}`,
-      title: 'BlueSky',
-      label: 'Bluesky',
-      icon: 'ri:bluesky-line',
-      rel: 'noopener noreferrer',
-    },
-].filter(Boolean)
+const socialLinks = buildSocialLinks({
+  rssUrl: RSS_URL,
+  podcast: PODCAST,
+  twitter: TWITTER,
+  github: GITHUB,
+  telegram: TELEGRAM,
+  discord: DISCORD,
+  mastodon: MASTODON,
+  bluesky: BLUESKY,
+})
 ---
 
 <header>
@@ -111,7 +57,7 @@ const socialLinks = [
       />
     </a>
     <div class={titleWrapClass}>
-      <a href={SITE_URL} class={titleLinkClass} style={siteTitleStyle} title={channel?.title}>
+      <a href={SITE_URL} class={titleLinkClass} title={channel?.title}>
         {channel?.title}
       </a>
     </div>

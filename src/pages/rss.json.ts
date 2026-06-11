@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 import { getFeedData } from '../lib/feed'
-import { sanitizeFeedHtml } from '../lib/html'
+import { sanitizeFeedHtml } from '../lib/sanitize'
 
 export const GET: APIRoute = async (context) => {
   const { channel, posts, siteUrl, title } = await getFeedData(context)

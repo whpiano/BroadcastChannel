@@ -3,7 +3,12 @@ import type { IndexedStaticProxyOptions, MessageSelection, StaticProxyOptions } 
 import flourite from 'flourite'
 import prism from '../prism'
 import { getCustomEmojiImage } from './emoji'
+import { proxyStyleUrls } from './renderers/html'
 import { normalizeUrlAttribute, normalizeUrlAttributes } from './url'
+
+interface ModifyHTMLContentOptions extends IndexedStaticProxyOptions {
+  normalizeUrls?: boolean
+}
 
 async function hydrateTgEmoji($: CheerioAPI, content: MessageSelection, options: StaticProxyOptions = {}): Promise<void> {
   const { staticProxy = '' } = options
@@ -18,18 +23,21 @@ async function hydrateTgEmoji($: CheerioAPI, content: MessageSelection, options:
   }
 }
 
-export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection, options: IndexedStaticProxyOptions = {}): Promise<MessageSelection> {
-  const { index = 0, staticProxy = '' } = options
+export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection, options: ModifyHTMLContentOptions = {}): Promise<MessageSelection> {
+  const { index = 0, staticProxy = '', normalizeUrls = true } = options
 
   await hydrateTgEmoji($, content, { staticProxy })
-  normalizeUrlAttributes($, content)
+  if (normalizeUrls) {
+    normalizeUrlAttributes($, content)
+  }
+  proxyStyleUrls($, content, staticProxy)
   content.find('.emoji').removeAttr('style')
 
   for (const linkNode of content.find('a').toArray()) {
     const link = $(linkNode)
     const href = link.attr('href')
 
-    if (href) {
+    if (href && normalizeUrls) {
       link.attr('href', normalizeUrlAttribute(href))
     }
 
@@ -41,9 +49,9 @@ export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection
     const expandId = `expand-${index}-${blockquoteIndex}`
     const expandContentId = `${expandId}-content`
     const expandable = `<div class="tg-expandable">
-      <input type="checkbox" id="${expandId}" class="tg-expandable__checkbox" aria-label="Expand hidden content" aria-controls="${expandContentId}">
+      <input type="checkbox" id="${expandId}" class="tg-expandable__checkbox" aria-label="Toggle hidden content" aria-controls="${expandContentId}">
       <div id="${expandContentId}" class="tg-expandable__content">${innerHTML}</div>
-      <label for="${expandId}" class="tg-expandable__toggle"><span class="sr-only">Expand hidden content</span></label>
+      <label for="${expandId}" class="tg-expandable__toggle"><span class="sr-only">Toggle hidden content</span></label>
     </div>`
 
     $(blockquoteNode).replaceWith(expandable)
@@ -52,7 +60,7 @@ export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection
   for (const [spoilerIndex, spoilerNode] of content.find('tg-spoiler').toArray().entries()) {
     const spoiler = $(spoilerNode)
     const spoilerId = `spoiler-${index}-${spoilerIndex}`
-    const spoilerInput = `<input type="checkbox" aria-label="Reveal spoiler" aria-controls="${spoilerId}" />`
+    const spoilerInput = `<input type="checkbox" aria-label="Toggle spoiler" aria-controls="${spoilerId}" />`
 
     spoiler.attr('id', spoilerId).wrap('<label class="spoiler-button"></label>').before(spoilerInput)
   }

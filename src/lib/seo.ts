@@ -1,4 +1,4 @@
-import type { ChannelInfo, EnvCapableAstro, SeoMeta } from '../types'
+import type { AstroEnvContext, ChannelInfo, SeoMeta } from '../types'
 import { getBooleanEnv } from './env'
 
 const TRAILING_SLASH_REGEX = /\/$/
@@ -14,7 +14,7 @@ export function getAbsoluteSiteUrl(siteUrl: string, origin: string): string {
 }
 
 export function getPageSeo(options: {
-  Astro: EnvCapableAstro & { url: URL }
+  Astro: AstroEnvContext & { url: URL }
   channel?: ChannelInfo
   locale?: string
   seo?: SeoMeta
@@ -51,8 +51,8 @@ export function getPageSeo(options: {
       title: pageTitle,
       description: seoDescription,
       canonical,
-      noindex: seo?.noindex ?? getBooleanEnv(import.meta.env, Astro, ['NOINDEX', 'NO_INDEX']),
-      nofollow: seo?.nofollow ?? getBooleanEnv(import.meta.env, Astro, ['NOFOLLOW', 'NO_FOLLOW']),
+      noindex: seo?.noindex ?? getBooleanEnv(import.meta.env, Astro, 'NOINDEX'),
+      nofollow: seo?.nofollow ?? getBooleanEnv(import.meta.env, Astro, 'NOFOLLOW'),
       openGraph: {
         basic: {
           type: isArticle ? 'article' : 'website',

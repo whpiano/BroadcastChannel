@@ -1,6 +1,6 @@
 ---
 import type { TagCloudItem } from '../types'
-import { tagChipLinkClass } from '../lib/ui'
+import { tagChipLinkClass } from '../lib/style-classes'
 
 const { id, title, items } = Astro.props as {
   id?: string
@@ -9,9 +9,9 @@ const { id, title, items } = Astro.props as {
 }
 const titleId = id ?? `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'section'}-title`
 
-const sectionTitleClass = 'm-0 px-[10px] text-[16px] font-semibold leading-none text-heading'
+const sectionTitleClass = 'm-0 px-2.5 text-base font-semibold leading-none text-heading'
 const tagCloudClass =
-  'mt-4 mb-0 list-none pl-0 leading-normal [column-count:1] [column-gap:20px] sm:[column-count:2] sm:[column-gap:40px] sm:[column-rule:1px_solid_var(--color-line)]'
+  'mt-4 mb-0 columns-1 gap-5 list-none pl-0 leading-normal md:columns-2 md:gap-10 md:[column-rule:1px_solid_var(--color-line)]'
 const tagCloudItemClass = 'mb-2 block break-inside-avoid'
 const tagLinkClass = tagChipLinkClass
 ---

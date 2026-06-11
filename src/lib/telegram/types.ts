@@ -1,8 +1,8 @@
 import type { AnyNode, Cheerio, CheerioAPI } from 'cheerio'
-import type { EnvCapableAstro } from '../../types'
+import type { AstroEnvContext } from '../../types'
 
 export type MessageSelection = Cheerio<AnyNode>
-export type RequestContext = EnvCapableAstro & { request: Request }
+export type RequestContext = AstroEnvContext & { request: Request }
 
 export interface StaticProxyOptions {
   staticProxy?: string

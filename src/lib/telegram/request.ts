@@ -1,10 +1,21 @@
 import type { GetChannelInfoParams } from '../../types'
 import type { LoadedChannelDocument, RequestContext } from './types'
 import * as cheerio from 'cheerio'
+import { defineCachedFunction } from 'ocache'
 import { $fetch } from 'ofetch'
 import { getBooleanEnv, getEnv, getStaticProxy } from '../env'
 
 const UNNECESSARY_HEADERS = new Set(['authorization', 'cookie', 'host', 'origin', 'referer'])
+
+interface TelegramHtmlParams {
+  host: string
+  channel: string
+  id?: string
+  before?: string
+  after?: string
+  q?: string
+  headers: Record<string, string>
+}
 
 function getRequiredEnv(context: RequestContext, name: string): string {
   const value = getEnv(import.meta.env, context, name)
@@ -26,6 +37,40 @@ function getRequestHeaders(request: Request): Record<string, string> {
   return headers
 }
 
+async function fetchTelegramHtml({ host, channel, id, before, after, q, headers }: TelegramHtmlParams): Promise<string> {
+  const requestUrl = id
+    ? `https://${host}/${channel}/${id}?embed=1&mode=tme`
+    : `https://${host}/s/${channel}`
+
+  return await $fetch<string>(requestUrl, {
+    headers,
+    query: {
+      before: before || undefined,
+      after: after || undefined,
+      q: q || undefined,
+    },
+    responseType: 'text',
+    timeout: 15000,
+    retry: 3,
+    retryDelay: 100,
+  })
+}
+
+const loadTelegramHtml = defineCachedFunction(fetchTelegramHtml, {
+  name: 'telegram-html',
+  maxAge: 60 * 5,
+  swr: true,
+  staleMaxAge: 60 * 60,
+  getKey: ({ host, channel, id, before, after, q }) => JSON.stringify({
+    host,
+    channel,
+    id: id || '',
+    before: before || '',
+    after: after || '',
+    q: q || '',
+  }),
+})
+
 export async function loadChannelDocument(
   context: RequestContext,
   params: GetChannelInfoParams & { id?: string } = {},
@@ -35,19 +80,14 @@ export async function loadChannelDocument(
   const channel = getRequiredEnv(context, 'CHANNEL')
   const staticProxy = getStaticProxy(import.meta.env, context)
   const reactionsEnabled = getBooleanEnv(import.meta.env, context, 'REACTIONS')
-  const requestUrl = id
-    ? `https://${host}/${channel}/${id}?embed=1&mode=tme`
-    : `https://${host}/s/${channel}`
-
-  const html = await $fetch<string>(requestUrl, {
+  const html = await loadTelegramHtml({
+    host,
+    channel,
+    id,
+    before,
+    after,
+    q,
     headers: getRequestHeaders(context.request),
-    query: {
-      before: before || undefined,
-      after: after || undefined,
-      q: q || undefined,
-    },
-    retry: 3,
-    retryDelay: 100,
   })
 
   return {

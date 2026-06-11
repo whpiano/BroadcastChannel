@@ -112,11 +112,6 @@ NOINDEX=false
 ## 隐藏 Telegram 频道简介
 HIDE_DESCRIPTION=false
 
-## Sentry 配置项，收集服务端报错
-SENTRY_AUTH_TOKEN=SENTRY_AUTH_TOKEN
-SENTRY_DSN=SENTRY_DSN
-SENTRY_PROJECT=SENTRY_PROJECT
-
 ## Telegram 主机名称和静态资源代理，不建议修改
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=

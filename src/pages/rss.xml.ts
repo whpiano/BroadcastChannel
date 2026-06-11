@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import rss from '@astrojs/rss'
 import { getBooleanEnv } from '../lib/env'
 import { getFeedData } from '../lib/feed'
-import { sanitizeFeedHtml } from '../lib/html'
+import { sanitizeFeedHtml } from '../lib/sanitize'
 
 export const GET: APIRoute = async (context) => {
   const { channel, posts, siteUrl, title } = await getFeedData(context)

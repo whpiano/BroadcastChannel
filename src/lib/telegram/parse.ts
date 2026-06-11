@@ -3,14 +3,57 @@ import type { Post, Reaction } from '../../types'
 import type { ExtractPostOptions, MessageSelection } from './types'
 import { modifyHTMLContent } from './content'
 import { getCustomEmojiImage, normalizeEmoji } from './emoji'
-import { getAudio, getImages, getImageStickers, getLinkPreview, getReply, getVideo, getVideoStickers } from './media'
+import { getAudio, getForwardedFrom, getImages, getImageStickers, getLinkPreview, getReply, getTgsStickers, getVideo, getVideoStickers } from './media'
+import { renderRawContent } from './renderers/raw'
 import { normalizeUrlAttributes } from './url'
 
 const TITLE_PREVIEW_REGEX = /^.*?(?=[。\n]|http\S)/g
-const CONTENT_URL_REGEX = /(url\(["'])((https?:)?\/\/)/g
 
 function isNonEmptyString(value: string | null | undefined): value is string {
   return Boolean(value)
+}
+
+function collectTags($: CheerioAPI, content: MessageSelection): string[] {
+  const tags: string[] = []
+
+  for (const tagNode of content.find('a[href^="?q="]').toArray()) {
+    const tagLink = $(tagNode)
+    const tagText = tagLink.text()
+
+    tagLink.attr('href', `/search/result?q=${encodeURIComponent(tagText)}`)
+
+    const normalizedTag = tagText.replace('#', '')
+    if (normalizedTag) {
+      tags.push(normalizedTag)
+    }
+  }
+
+  return tags
+}
+
+function renderPostContent(
+  $: CheerioAPI,
+  message: MessageSelection,
+  content: MessageSelection,
+  options: ExtractPostOptions & { id: string, title: string },
+): string {
+  const { channel, staticProxy, index = 0, id, title } = options
+
+  return [
+    getForwardedFrom($, message),
+    getReply($, message, { channel }),
+    getImages($, message, { staticProxy, id, index, title }),
+    getVideo($, message, { staticProxy, index }),
+    getAudio($, message, { staticProxy }),
+    content.html(),
+    getImageStickers($, message, { staticProxy, index }),
+    getTgsStickers($, message, { staticProxy, index }),
+    getVideoStickers($, message, { staticProxy, index }),
+    ...renderRawContent($, message, { staticProxy }),
+    getLinkPreview($, message, { staticProxy, index }),
+  ]
+    .filter(isNonEmptyString)
+    .join('')
 }
 
 function getReactions($: CheerioAPI, message: MessageSelection, staticProxy: string): Reaction[] {
@@ -67,45 +110,13 @@ export async function extractPost($: CheerioAPI, item: AnyNode | null, options: 
   const content = await modifyHTMLContent(
     $,
     message.find(hasReplyText ? '.tgme_widget_message_text.js-message_text' : '.tgme_widget_message_text'),
-    { index, staticProxy },
+    { index, staticProxy, normalizeUrls: false },
   )
   const contentText = content.text()
   const title = contentText.match(TITLE_PREVIEW_REGEX)?.[0] ?? contentText
   const id = message.attr('data-post')?.replace(new RegExp(`${channel}/`, 'i'), '') ?? ''
-  const tags: string[] = []
-
-  for (const tagNode of content.find('a[href^="?q="]').toArray()) {
-    const tagLink = $(tagNode)
-    const tagText = tagLink.text()
-
-    tagLink.attr('href', `/search/result?q=${encodeURIComponent(tagText)}`)
-
-    const normalizedTag = tagText.replace('#', '')
-    if (normalizedTag) {
-      tags.push(normalizedTag)
-    }
-  }
-
-  const contentHtml = [
-    getReply($, message, { channel }),
-    getImages($, message, { staticProxy, id, index, title }),
-    getVideo($, message, { staticProxy, index }),
-    getAudio($, message, { staticProxy }),
-    content.html(),
-    getImageStickers($, message, { staticProxy, index }),
-    getVideoStickers($, message, { staticProxy, index }),
-    message.find('.tgme_widget_message_poll').html(),
-    $.html(message.find('.tgme_widget_message_document_wrap')),
-    $.html(message.find('.tgme_widget_message_video_player.not_supported')),
-    $.html(message.find('.tgme_widget_message_location_wrap')),
-    getLinkPreview($, message, { staticProxy, index }),
-  ]
-    .filter(isNonEmptyString)
-    .join('')
-    .replace(CONTENT_URL_REGEX, (_match, prefix: string, protocol: string) => {
-      const normalizedProtocol = protocol === '//' ? 'https://' : protocol
-      return `${prefix}${staticProxy}${normalizedProtocol}`
-    })
+  const tags = collectTags($, content)
+  const contentHtml = renderPostContent($, message, content, { channel, staticProxy, index, reactionsEnabled, id, title })
 
   return {
     id,

@@ -1,13 +1,16 @@
 ---
 import List from '../../components/list.astro'
-import { getSearchQuery, getSearchSeo } from '../../lib/search'
 import { getChannelInfo } from '../../lib/telegram'
+import type { SeoMeta } from '../../types'
 
-const q = getSearchQuery(Astro)
+const q = Astro.url.searchParams.get('q') || ''
 const channel = await getChannelInfo(Astro, {
   q,
 })
-const pageSeo = getSearchSeo(q)
+const pageSeo: SeoMeta = {
+  title: q,
+  noindex: true,
+}
 ---
 
 <List channel={channel} before={false} after={false} pageHeading={`Search: ${q}`} pageSeo={pageSeo} />

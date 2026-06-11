@@ -1,8 +1,8 @@
 ---
 import ChannelAvatar from '../../components/ChannelAvatar.astro'
 import List from '../../components/list.astro'
+import { siteTitleClass } from '../../lib/style-classes'
 import { getChannelInfo, getChannelPost } from '../../lib/telegram'
-import { siteTitleStyle } from '../../lib/ui'
 
 const { SITE_URL } = Astro.locals
 
@@ -20,11 +20,11 @@ const channel = {
   posts: [post],
 }
 
-const breadcrumbClass = 'mb-5 py-[10px] font-semibold'
+const breadcrumbClass = 'mb-5 py-2.5 font-semibold'
 const breadcrumbListClass = 'm-0 flex list-none items-center p-0'
 const breadcrumbLinkClass = 'inline-flex items-center no-underline'
 const breadcrumbAvatarClass = 'block h-5 w-5 rounded-full border-2 border-white object-cover shadow-soft'
-const breadcrumbTitleClass = 'ml-[10px] flex-1 text-[14px] text-heading'
+const breadcrumbTitleClass = `ml-2.5 flex-1 text-sm text-heading ${siteTitleClass}`
 ---
 
 <List
@@ -47,7 +47,7 @@ const breadcrumbTitleClass = 'ml-[10px] flex-1 text-[14px] text-heading'
             height="20"
             class={breadcrumbAvatarClass}
           />
-          <span class={breadcrumbTitleClass} style={siteTitleStyle}>{channel.title}</span>
+          <span class={breadcrumbTitleClass}>{channel.title}</span>
         </a>
       </li>
     </ol>

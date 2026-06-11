@@ -115,11 +115,6 @@ NOINDEX=false
 ## Hide Telegram channel description
 HIDE_DESCRIPTION=false
 
-## Sentry configuration options, collect server-side errors
-SENTRY_AUTH_TOKEN=SENTRY_AUTH_TOKEN
-SENTRY_DSN=SENTRY_DSN
-SENTRY_PROJECT=SENTRY_PROJECT
-
 ## Telegram host name and static resource proxy, not recommended to modify
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=

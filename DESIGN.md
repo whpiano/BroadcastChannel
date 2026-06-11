@@ -1,227 +1,246 @@
 ---
 version: alpha
 name: BroadcastChannel Sepia
-description: A warm, server-rendered Telegram microblog identity with a paper canvas, quiet navigation, and an accent-led timeline.
+description: "Warm, readable Telegram-channel microblog design for server-rendered timelines."
 colors:
-  primary: "#000000"
+  primary: "#333333"
   secondary: "#706862"
-  tertiary: "#B23B00"
-  neutral: "#F4F1EC"
-  surface: "#FFFFFF"
-  surface-muted: "#F9F9F9"
+  tertiary: "#b23b00"
+  neutral: "#f4f1ec"
+  paper: "#f4f1ec"
+  ink: "#000000"
   heading: "#333333"
-  link: "#5A6570"
-  link-hover: "#3F4850"
+  accent: "#b23b00"
+  surface: "#ffffff"
+  code: "#f9f9f9"
+  muted: "#706862"
+  link: "#5a6570"
+  link-hover: "#3f4850"
   line: "rgba(0, 0, 0, 0.05)"
   footer: "#666666"
-  paid: "#9A6A00"
+  inverse: "#ffffff"
+  overlay: "rgba(0, 0, 0, 0.80)"
 typography:
-  title:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+  site-title:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
     fontSize: 20px
     fontWeight: 600
+    lineHeight: 1.25
+  headline-lg:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
+    fontSize: 24px
+    fontWeight: 700
     lineHeight: 1.2
+  headline-md:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
+    fontSize: 20px
+    fontWeight: 700
+    lineHeight: 1.25
   body-md:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.6
   body-sm:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.5
   meta:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
     fontSize: 14px
     fontWeight: 500
     lineHeight: 1
   caption:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
     fontSize: 12px
-    fontWeight: 500
+    fontWeight: 400
     lineHeight: 1.5
-  content-h1:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
-    fontSize: 24px
-    fontWeight: 700
-    lineHeight: 1.25
-  content-h2:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
-    fontSize: 20px
-    fontWeight: 700
-    lineHeight: 1.3
+spacing:
+  hairline: 1px
+  xxs: 2px
+  xs: 4px
+  sm: 6px
+  md: 8px
+  panel: 10px
+  lg: 16px
+  xl: 20px
+  xxl: 32px
+  content-max: 896px
+  sidebar: 208px
 rounded:
   panel: 3px
   chip: 4px
   media: 8px
   full: 9999px
-spacing:
-  hairline-gap: 2px
-  xs: 5px
-  sm: 10px
-  md: 15px
-  lg: 20px
-  xl: 30px
-  2xl: 40px
-  page-x: 20px
-  content-indent: 30px
-  sidebar: 200px
-  content-max: 800px
 components:
-  nav-link:
+  page-shell:
     backgroundColor: "{colors.neutral}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-md}"
+    padding: 20px
+    width: "{spacing.content-max}"
+  skip-link:
+    backgroundColor: "{colors.heading}"
+    textColor: "{colors.inverse}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.panel}"
+    padding: 10px
+  nav-link:
+    backgroundColor: "{colors.paper}"
     textColor: "{colors.heading}"
     typography: "{typography.body-md}"
     rounded: "{rounded.panel}"
     padding: 10px
-  nav-link-active:
+  nav-link-current:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.heading}"
-    typography: "{typography.body-md}"
     rounded: "{rounded.panel}"
-    padding: 10px
-  link:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.link}"
-    typography: "{typography.body-md}"
-  link-hover:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.link-hover}"
-    typography: "{typography.body-md}"
-  separator:
-    backgroundColor: "{colors.line}"
-    height: 2px
-  search-input:
-    backgroundColor: "{colors.surface-muted}"
-    textColor: "{colors.secondary}"
-    typography: "{typography.body-md}"
+  search-field:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.heading}"
+    typography: "{typography.caption}"
     rounded: "{rounded.panel}"
-    padding: 10px
+    padding: 8px
   timeline-dot:
-    backgroundColor: "{colors.tertiary}"
+    backgroundColor: "{colors.accent}"
     rounded: "{rounded.full}"
     size: 8px
-  post-content:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.primary}"
+  timeline-link:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.accent}"
+    typography: "{typography.meta}"
+  body-link:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.link}"
     typography: "{typography.body-md}"
-    padding: 30px
+  body-link-hover:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.link-hover}"
+    typography: "{typography.body-md}"
   tag-chip:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.secondary}"
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.muted}"
     typography: "{typography.body-sm}"
     rounded: "{rounded.chip}"
     padding: 10px
   reaction-pill:
-    backgroundColor: "{colors.surface-muted}"
-    textColor: "{colors.secondary}"
+    backgroundColor: "{colors.code}"
+    textColor: "{colors.muted}"
     typography: "{typography.caption}"
     rounded: "{rounded.full}"
-    padding: 6px
-  paid-reaction-pill:
-    textColor: "{colors.paid}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.full}"
-    padding: 6px
-  media:
+    padding: 8px
+  content-card:
     backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-md}"
+    rounded: "{rounded.panel}"
+    padding: 10px
+  media-frame:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
     rounded: "{rounded.media}"
-  footer:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.footer}"
-    typography: "{typography.body-sm}"
+  divider:
+    backgroundColor: "{colors.line}"
+    height: 1px
   back-to-top:
-    backgroundColor: "{colors.surface-muted}"
-    textColor: "{colors.heading}"
+    backgroundColor: "{colors.code}"
+    textColor: "{colors.muted}"
     rounded: "{rounded.full}"
     size: 32px
+  footer-text:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.footer}"
+    typography: "{typography.body-sm}"
+  modal-overlay:
+    backgroundColor: "{colors.overlay}"
+    textColor: "{colors.inverse}"
+  modal-close:
+    backgroundColor: "rgba(0, 0, 0, 0.72)"
+    textColor: "{colors.inverse}"
+    rounded: "{rounded.full}"
+    size: 40px
 ---
+
+# BroadcastChannel Design System
 
 ## Overview
 
-BroadcastChannel uses a Sepia-inspired microblog style: calm, readable, and deliberately low-tech. The interface should feel like a personal notebook generated from a Telegram channel, not like a social feed competing for attention.
+BroadcastChannel presents Telegram channels as a quiet, server-rendered microblog. The visual identity is **sepia editorial minimalism**: warm paper, dark ink, a restrained burnt-orange timeline accent, and almost no browser-side ornamentation.
 
-The product personality is warm, utilitarian, and content-first. Server-rendered HTML, strong accessibility defaults, and nearly zero browser-side JavaScript are part of the visual identity: pages should load quietly, scroll predictably, and keep the message timeline as the primary focus.
+The interface should feel fast, readable, and personal rather than app-like. Favor semantic HTML, low chrome, clear timelines, and content-first composition. The current implementation source for most tokens is `src/styles/app.css`.
 
 ## Colors
 
-The palette is built from warm paper, high-contrast ink, muted utility greys, and one restrained rust accent.
+The palette is intentionally small and warm.
 
-- **Primary / Ink (`#000000`):** main reading text. Use it for long-form message content where contrast matters most.
-- **Heading (`#333333`):** channel titles, navigation text, focus rings, and strong UI labels.
-- **Secondary / Muted (`#706862`):** descriptions, chips, reaction pills, pagination, and secondary metadata.
-- **Tertiary / Rust Accent (`#B23B00`):** timeline dots, timestamps, post permalinks, tag hover states, and blockquote/link-preview rails.
-- **Neutral / Paper (`#F4F1EC`):** page background and the dominant canvas.
-- **Surface (`#FFFFFF`):** active navigation, cards, quoted content, table rows, and preview blocks.
-- **Surface Muted (`#F9F9F9`):** search fields, code blocks, reaction pills, and low-emphasis controls.
-- **Line (`rgba(0, 0, 0, 0.05)`):** separators, timeline rails, borders, table grid lines, and media outlines.
-
-Use the rust accent sparingly. It should mark chronology and intent, not decorate every interactive element.
+- **Primary / Heading (`#333333`):** stable dark gray for titles, focus rings, and navigation text.
+- **Secondary / Muted (`#706862`):** sepia gray for descriptions, reaction counts, placeholders, and secondary copy.
+- **Tertiary / Accent (`#b23b00`):** burnt orange for the timeline dot, timestamps, tag hover states, blockquote rails, and active emphasis.
+- **Neutral / Paper (`#f4f1ec`):** warm page background; it should remain visible around content instead of being replaced by full white panels.
+- **Surface (`#ffffff`) and Code (`#f9f9f9`):** quiet raised surfaces for cards, code blocks, reactions, and inline content modules.
+- **Line (`rgba(0, 0, 0, 0.05)`):** very soft separators; avoid strong borders unless they communicate structure.
+- **Links (`#5a6570` → `#3f4850`):** subdued slate links; use the accent color only when an item belongs to the timeline or is the primary interaction.
 
 ## Typography
 
-Typography uses the system sans stack only. This keeps the site fast, localizable, and consistent across serverless deployments without font loading dependencies.
+Use the system sans stack only. Do not introduce webfonts unless the product direction changes; the current identity depends on native rendering, speed, and low operational complexity.
 
-- **Title:** 20px, semibold, compact line-height for channel names.
-- **Body:** 16px with 1.6 line-height for posts and channel descriptions.
-- **Metadata:** 14px medium for timestamps and compact navigation labels.
-- **Caption:** 12px medium for pagination, reactions, and small utility text.
-- **Content headings:** preserve familiar markdown hierarchy: 24px h1, 20px h2, then progressively smaller bold headings.
-
-Prefer plain weights over typographic flourish. The content may include CJK, emoji, code, Telegram entities, and rich previews; the type system should make mixed content stable rather than branded.
+- **Site title:** 20px, semibold, compact line height.
+- **Content body:** 16px with `1.6` line height for mixed Telegram text, media, and rich previews.
+- **Metadata:** 14px medium for timestamps and timeline labels.
+- **Captions / search / reactions:** 12px–14px with restrained weight.
+- **Markdown content:** H1/H2 are bold but modest; avoid oversized editorial display type because posts are usually short and dense.
 
 ## Layout
 
-The layout is a compact two-column shell on wider screens and a single-column flow on mobile.
+The page uses a narrow fixed maximum width with responsive behavior:
 
-- The page shell uses 20px horizontal margins and an 800px maximum content width.
-- On desktop, the main timeline and a 200px sticky sidebar sit in a reversed flex row, separated by a subtle right border on the main column.
-- On mobile, navigation becomes a sticky top strip with wrapped links and a collapsible search affordance.
-- Timeline items use a small accent dot, a muted vertical rail, and 15px–30px indentation to create chronological rhythm.
-- Spacing intentionally favors 10px, 20px, and 30px steps, with small 2px–6px adjustments only for icon and pill alignment.
+- Outer margin: 20px on small screens and desktop.
+- Main grid: maximum width 896px.
+- Desktop: content column with a right sticky sidebar, separated by a soft right border on the main column.
+- Mobile: sidebar collapses into a sticky top strip above the feed.
+- Timeline: posts align on a vertical rail with an 8px accent dot and generous vertical rhythm around post content.
+- Content media should stay within the text column and retain a small margin so the paper background remains visible.
 
-Keep layouts narrow and readable. Do not expand posts into magazine-style cards or dense dashboards unless the product goal changes.
+Spacing follows Tailwind's 4px-based scale, with 10px (`2.5`) used frequently for panel padding and microblog rhythm.
 
 ## Elevation & Depth
 
-Depth is quiet and functional. Most hierarchy comes from spacing, borders, color contrast, and the timeline rail.
+Depth is subtle. Use tonal separation, hairline borders, and the existing `shadow-soft` treatment rather than heavy shadows. Elevated elements should feel like paper placed on paper, not floating app cards.
 
-The only standard shadow is a soft layered shadow with very low alpha, used on avatars, active navigation, media, code blocks, tables, and small floating controls. Avoid heavy elevation, glow, or material-style stacked cards.
-
-Modal image preview is the exception: it may use a dark translucent backdrop and blur to isolate the image from the page.
+Use shadows for avatars, media frames, code blocks, current navigation items, and small controls. Avoid stacking multiple shadow styles on the same view.
 
 ## Shapes
 
-The shape language mixes restrained rectangular panels with fully round identity and timeline elements.
+The shape language is slightly softened but not bubbly.
 
-- **3px panels:** navigation links, search fields, quote blocks, spoilers, and link previews.
-- **4px chips:** tags and compact text chips.
-- **8px media:** images, iframes, code blocks, and modal images.
-- **Full radius:** avatars, timeline dots, reactions, and floating circular buttons.
+- Panels and inline modules use a 3px radius.
+- Chips use a 4px radius.
+- Media uses an 8px radius.
+- Circular controls and timeline dots use a full radius.
 
-Avoid introducing new radius values unless a new component truly needs a distinct shape role.
+Do not mix large rounded cards with the existing compact sepia style unless the whole visual system is intentionally revised.
 
 ## Components
 
-- **Channel header:** circular 40px avatar, 20px semibold title, compact social icon row, and optional description panel on muted surface.
-- **Sidebar navigation:** plain text links with subtle active surface and soft shadow. Hover may add white translucency and underline only when useful.
-- **Search:** hidden behind a small mobile toggle; visible in desktop sidebar. Inputs should stay muted and functional, not visually dominant.
-- **Timeline post:** timestamp and permalink use the rust accent. Content is aligned to the vertical rail and should remain the main visual mass.
-- **Content body:** support markdown-like prose, code, checklists, tables, Telegram emoji, spoilers, polls, location blocks, and media without changing the core rhythm.
-- **Link preview and blockquote:** use white surface, a 3px rust left rail, compact padding, and the panel radius.
-- **Tags and links:** render as small bordered chips or two-column tag clouds; hover changes border/text to the accent color.
-- **Reactions:** use rounded muted pills with small emoji and tabular numeric counts.
-- **Pagination:** rounded outline buttons with muted text; hover only shifts text to the accent.
-- **Back to top:** 32px circular muted control with a small upward hover motion.
+- **Timeline item:** timestamp link in accent, 8px accent dot, and a soft vertical rail. Keep post content aligned to the rail.
+- **Header:** avatar, channel title, and social icons should remain compact. Icons use filter-based muted states and should not dominate the title.
+- **Navigation:** small text links with subtle white hover/current backgrounds. Current state uses soft shadow plus surface tint, not accent fills.
+- **Search:** quiet bordered field in the sidebar; on mobile it opens from a compact icon in the sticky top strip.
+- **Tags and links:** chip-like text links with muted default color and accent hover color.
+- **Reactions:** small rounded pills on the timeline rail; paid reactions may use a separate gold tint but should stay visually secondary.
+- **Telegram content modules:** blockquotes, expandable text, link previews, code, tables, and media should use existing content styles and sanitize external HTML before rendering.
+- **Back to top:** small circular affordance in the bottom corner, low opacity, with a slight upward hover movement.
+- **Modals:** image preview modals use a dark translucent overlay, strong backdrop blur, and one clear circular close button.
 
 ## Do's and Don'ts
 
-- Do keep the page content-first, quiet, and server-rendered by default.
-- Do reuse the existing `@theme` color, radius, shadow, and spacing values before adding new tokens.
-- Do preserve WCAG AA contrast for normal text and visible focus rings for keyboard users.
-- Do use the rust accent for chronology, primary hover feedback, and content emphasis.
-- Don't add client-side JavaScript for visual polish unless the feature cannot work without it.
-- Don't introduce heavy shadows, gradients, glassmorphism, or animated decoration into the main timeline.
-- Don't widen the reading column or turn each post into a card grid; the current identity depends on a narrow chronological stream.
-- Don't add custom webfonts unless there is a measured benefit that outweighs load cost and deployment complexity.
+- Do keep the page warm, quiet, and content-first.
+- Do keep contrast at WCAG AA or better for text and controls.
+- Do reuse the tokens in `src/styles/app.css` and update this file when those tokens change.
+- Do keep client-side JavaScript near zero; Telegram comments are the deliberate exception.
+- Don't introduce new accent colors for routine actions.
+- Don't replace the timeline with card-heavy layouts without a product-level redesign.
+- Don't overuse shadows, gradients, animations, or large rounded corners.
+- Don't feed unsanitized external Telegram HTML into rendered content.

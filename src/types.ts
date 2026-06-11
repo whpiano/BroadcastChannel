@@ -40,7 +40,7 @@ export interface GetChannelInfoParams {
   q?: string
 }
 
-export interface EnvCapableAstro {
+export interface AstroEnvContext {
   locals?: App.Locals & {
     runtime?: {
       env?: Record<string, string | undefined>

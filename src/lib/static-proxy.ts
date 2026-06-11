@@ -23,7 +23,8 @@ export function resolveStaticProxyTarget(rawTarget: string): URL {
 }
 
 export function isStaticProxyWhitelisted(target: URL): boolean {
-  return TARGET_WHITELIST.some(domain => target.hostname === domain || target.hostname.endsWith(`.${domain}`))
+  const isAllowedProtocol = target.protocol === 'http:' || target.protocol === 'https:'
+  return isAllowedProtocol && TARGET_WHITELIST.some(domain => target.hostname === domain || target.hostname.endsWith(`.${domain}`))
 }
 
 function getForwardedRequestHeaders(request: Request): Headers {
@@ -52,8 +53,16 @@ export async function createStaticProxyResponse(request: Request, rawTarget: str
     return new Response('Proxy target not allowed', { status: 403 })
   }
 
-  const response = await fetch(target.toString(), {
-    headers: getForwardedRequestHeaders(request),
-  })
+  let response: Response
+
+  try {
+    response = await fetch(target.toString(), {
+      headers: getForwardedRequestHeaders(request),
+    })
+  }
+  catch {
+    return new Response('Upstream fetch failed', { status: 502 })
+  }
+
   return new Response(response.body, response)
 }

@@ -8,13 +8,15 @@ export const GET: APIRoute = async (Astro) => {
   const posts = channel.posts || []
 
   const pageSize = 20
-  let count = +posts[0]?.id
+  let count = Number(posts[0]?.id)
 
   const pages: number[] = []
-  pages.push(count)
-  while (count > pageSize) {
-    count -= pageSize
+  if (Number.isFinite(count) && count > 0) {
     pages.push(count)
+    while (count > pageSize) {
+      count -= pageSize
+      pages.push(count)
+    }
   }
 
   const sitemaps = pages.map((page) => {

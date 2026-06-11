@@ -41,6 +41,17 @@ const contentSanitizeOptions = {
       'aria-label',
     ],
   },
+  allowedStyles: {
+    '*': {
+      'background': [/^(?!.*javascript:)[^;]+$/i],
+      'background-image': [/^url\((?!.*javascript:)[^)]+\)$/i],
+      'background-position': [/^[\w\s.%+-]+$/],
+      'background-size': [/^[\w\s.%+/-]+$/],
+      'height': [/^\d+(?:\.\d+)?(?:px|%)$/],
+      'padding-top': [/^\d+(?:\.\d+)?%$/],
+      'width': [/^\d+(?:\.\d+)?(?:px|%)$/],
+    },
+  },
 }
 
 export function sanitizeContentHtml(content: string): string {

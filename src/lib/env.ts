@@ -1,4 +1,4 @@
-import type { EnvCapableAstro, NavItem } from '../types'
+import type { AstroEnvContext, NavItem } from '../types'
 
 /**
  * Reads an env variable from Vite's import.meta.env first, then falls back to
@@ -6,37 +6,24 @@ import type { EnvCapableAstro, NavItem } from '../types'
  */
 export function getEnv(
   env: Record<string, string | undefined>,
-  Astro: EnvCapableAstro,
+  Astro: AstroEnvContext,
   name: string,
 ): string | undefined {
   return env[name] ?? Astro.locals?.runtime?.env?.[name]
 }
 
-export function getEnvFallback(
-  env: Record<string, string | undefined>,
-  Astro: EnvCapableAstro,
-  names: string[],
-): string | undefined {
-  for (const name of names) {
-    const value = getEnv(env, Astro, name)
-    if (value !== undefined) {
-      return value
-    }
-  }
-}
-
 export function getStaticProxy(
   env: Record<string, string | undefined>,
-  Astro: EnvCapableAstro,
+  Astro: AstroEnvContext,
 ): string {
   return getEnv(env, Astro, 'STATIC_PROXY') ?? '/static/'
 }
 
 export function getPodcastUrl(
   env: Record<string, string | undefined>,
-  Astro: EnvCapableAstro,
+  Astro: AstroEnvContext,
 ): string | undefined {
-  return getEnvFallback(env, Astro, ['PODCAST', 'PODCASRT'])
+  return getEnv(env, Astro, 'PODCAST')
 }
 
 export function isEnabled(value: string | boolean | undefined): boolean {
@@ -45,10 +32,10 @@ export function isEnabled(value: string | boolean | undefined): boolean {
 
 export function getBooleanEnv(
   env: Record<string, string | undefined>,
-  Astro: EnvCapableAstro,
-  names: string | string[],
+  Astro: AstroEnvContext,
+  name: string,
 ): boolean | undefined {
-  const value = getEnvFallback(env, Astro, Array.isArray(names) ? names : [names])
+  const value = getEnv(env, Astro, name)
   return value === undefined ? undefined : isEnabled(value)
 }
 
