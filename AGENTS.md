@@ -10,14 +10,14 @@
 
 - Runtime/tooling: Node `v22`, `pnpm@11.5.3`, Astro `^6.4.6` SSR, Tailwind CSS v4 via `@tailwindcss/vite`, ESLint `^10.4.1` with Antfu + Astro + formatter rules.
 - Install/dev/build: `pnpm install`, `pnpm dev` or `pnpm start` (`astro dev`), `pnpm build`, `pnpm preview`.
-- Lint: `pnpm lint` for the repo, `pnpm lint:fix` for auto-fix, `pnpm eslint <path>` for focused checks.
-- There is no `pnpm test`, no `pnpm typecheck`, and no test runner/config/spec files; do not invent a single-test command.
+- Lint/typecheck/test: `pnpm lint`, `pnpm typecheck`, and `pnpm test` for repo gates; `pnpm lint:fix` for auto-fix; `pnpm eslint <path>` for focused lint checks.
+- There is no established single-test command; keep new unit coverage focused and use Vitest's normal filters only when needed.
 - `postinstall` installs `simple-git-hooks` when `.git` exists; pre-commit runs `lint-staged` with `eslint --fix`.
 - CI does not validate app behavior: `docker.yml` only builds/pushes the GHCR image, and `sync.yml` only syncs forks from upstream.
 
 ## Validation shortcuts
 
-- Small code change: `pnpm eslint <changed-file>` then `pnpm lint` if scope widened.
+- Small code change: `pnpm eslint <changed-file>`, `pnpm typecheck`, and `pnpm test`; run `pnpm lint` if scope widened.
 - UI or route change: `pnpm lint`, `pnpm build`, then preview/manual check.
 - Feed/SEO/sitemap changes: manually verify `/rss.xml`, `/rss.json`, `/sitemap.xml`, and relevant canonical/meta output in preview.
 - Telegram parsing or proxy changes: verify home, one `/posts/[id]` page, RSS output, and a `/static/...` asset path.
@@ -50,5 +50,5 @@
 - API-style routes must return `Response`/`Response.json`, not Express-like objects.
 - Follow ESLint formatting: 2 spaces, LF, UTF-8, single quotes, usually no semicolons; let `pnpm lint:fix` settle import order.
 - Preserve local naming: Astro route filenames follow routing syntax, newer reusable components use `PascalCase.astro`, older `header.astro`/`item.astro` stay lowercase.
-- External Telegram HTML must be sanitized via `src/lib/html.ts` before `set:html`; config injections in `base.astro` are the only intentional raw HTML path.
+- External Telegram HTML must be sanitized via `src/lib/sanitize.ts` before `set:html`; config injections in `base.astro` are the only intentional raw HTML path.
 - Design changes should keep the sepia, content-first system from `@DESIGN.md`: warm paper background, restrained burnt-orange accent, system sans fonts, subtle borders/shadows, and no card-heavy redesigns unless explicitly requested.

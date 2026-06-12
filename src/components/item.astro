@@ -14,7 +14,7 @@ const channelName = getEnv(import.meta.env, Astro, 'CHANNEL')
 const commentsEnabled = getBooleanEnv(import.meta.env, Astro, 'COMMENTS')
 const reactionsEnabled = getBooleanEnv(import.meta.env, Astro, 'REACTIONS')
 
-const timeago = formatPostTime(post.datetime, timezone, locale)
+const timeago = await formatPostTime(post.datetime, timezone, locale)
 const contentHtml = sanitizeContentHtml(post.content)
 const hasContent = contentHtml.length > 0
 const hasReactions = Boolean(reactionsEnabled && post.reactions?.length > 0)

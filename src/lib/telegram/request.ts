@@ -5,8 +5,6 @@ import { defineCachedFunction } from 'ocache'
 import { $fetch } from 'ofetch'
 import { getBooleanEnv, getEnv, getStaticProxy } from '../env'
 
-const UNNECESSARY_HEADERS = new Set(['authorization', 'cookie', 'host', 'origin', 'referer'])
-
 interface TelegramHtmlParams {
   host: string
   channel: string
@@ -25,16 +23,11 @@ function getRequiredEnv(context: RequestContext, name: string): string {
   return value
 }
 
-function getRequestHeaders(request: Request): Record<string, string> {
-  const headers = Object.fromEntries(request.headers.entries())
-
-  for (const key of Object.keys(headers)) {
-    if (UNNECESSARY_HEADERS.has(key)) {
-      delete headers[key]
-    }
+export function getTelegramRequestHeaders(): Record<string, string> {
+  return {
+    'accept': 'text/html,application/xhtml+xml',
+    'user-agent': 'BroadcastChannel/0.2.0',
   }
-
-  return headers
 }
 
 async function fetchTelegramHtml({ host, channel, id, before, after, q, headers }: TelegramHtmlParams): Promise<string> {
@@ -42,7 +35,7 @@ async function fetchTelegramHtml({ host, channel, id, before, after, q, headers 
     ? `https://${host}/${channel}/${id}?embed=1&mode=tme`
     : `https://${host}/s/${channel}`
 
-  return await $fetch<string>(requestUrl, {
+  return await $fetch<string, 'text'>(requestUrl, {
     headers,
     query: {
       before: before || undefined,
@@ -87,7 +80,7 @@ export async function loadChannelDocument(
     before,
     after,
     q,
-    headers: getRequestHeaders(context.request),
+    headers: getTelegramRequestHeaders(),
   })
 
   return {

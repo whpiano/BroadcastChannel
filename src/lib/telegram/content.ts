@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio'
 import type { IndexedStaticProxyOptions, MessageSelection, StaticProxyOptions } from './types'
 import flourite from 'flourite'
-import prism from '../prism'
+import prism, { ensurePrismLanguage } from '../prism'
 import { getCustomEmojiImage } from './emoji'
 import { proxyStyleUrls } from './renderers/html'
 import { normalizeUrlAttribute, normalizeUrlAttributes } from './url'
@@ -71,8 +71,18 @@ export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection
       pre.find('br').replaceWith('\n')
 
       const code = pre.text()
-      const language = flourite(code, { shiki: true, noUnknown: true }).language || 'text'
-      const highlightedCode = prism.highlight(code, prism.languages[language], language)
+      const detectedLanguage = flourite(code, { shiki: true, noUnknown: true }).language || 'text'
+      const language = await ensurePrismLanguage(detectedLanguage)
+      const grammar = prism.languages[language]
+
+      if (!grammar) {
+        const fallbackCode = $('<code class="language-text"></code>')
+        fallbackCode.text(code)
+        pre.empty().append(fallbackCode)
+        continue
+      }
+
+      const highlightedCode = prism.highlight(code, grammar, language)
       pre.html(`<code class="language-${language}">${highlightedCode}</code>`)
     }
     catch (error) {

@@ -5,11 +5,15 @@ import { extractPost } from './parse'
 import { loadChannelDocument } from './request'
 import { normalizeUrlAttribute } from './url'
 
-export async function getChannelPost(context: RequestContext, id: string): Promise<Post> {
+export function isRenderablePost(post: Post | null | undefined): post is Post {
+  return Boolean(post?.id && post.type === 'text' && post.content)
+}
+
+export async function getChannelPost(context: RequestContext, id: string): Promise<Post | null> {
   const { $, channel, staticProxy, reactionsEnabled } = await loadChannelDocument(context, { id })
   const post = await extractPost($, null, { channel, staticProxy, reactionsEnabled })
 
-  return post
+  return isRenderablePost(post) ? post : null
 }
 
 export async function getChannelInfo(context: RequestContext, params: GetChannelInfoParams = {}): Promise<ChannelInfo> {
@@ -21,7 +25,7 @@ export async function getChannelInfo(context: RequestContext, params: GetChannel
     postNodes.map((item, index) => extractPost($, item, { channel, staticProxy, index, reactionsEnabled })),
   ))
     .reverse()
-    .filter(post => post.type === 'text' && Boolean(post.id) && Boolean(post.content))
+    .filter(isRenderablePost)
 
   const channelInfo: ChannelInfo = {
     posts,

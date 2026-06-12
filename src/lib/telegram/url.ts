@@ -6,7 +6,7 @@ const HTML_ENTITY_REGEX = /&(?:#(\d+)|#x([\da-f]+)|([a-z][\da-z]+));/gi
 const STYLE_DOUBLE_QUOTED_URL_REGEX = /url\("([^"]*)"\)/gi
 const STYLE_SINGLE_QUOTED_URL_REGEX = /url\('([^']*)'\)/gi
 const STYLE_UNQUOTED_URL_REGEX = /url\(([^)"']*)\)/gi
-const URL_ATTRIBUTE_NAMES = ['href', 'src', 'srcset', 'poster', 'action', 'formaction', 'data-webp'] as const
+const URL_ATTRIBUTE_NAMES = ['href', 'src', 'poster', 'action', 'formaction', 'data-webp'] as const
 const HTML_ENTITY_MAP: Record<string, string> = {
   amp: '&',
   apos: '\'',
@@ -57,6 +57,22 @@ export function getProxiedUrl(staticProxy: string, url: string): string {
   return staticProxy + normalizeUrlAttribute(url)
 }
 
+export function normalizeSrcsetAttribute(srcset: string): string {
+  return srcset
+    .split(',')
+    .map((candidate) => {
+      const [url, ...descriptors] = candidate.trim().split(/\s+/)
+
+      if (!url) {
+        return ''
+      }
+
+      return [normalizeUrlAttribute(url), ...descriptors].join(' ')
+    })
+    .filter(Boolean)
+    .join(', ')
+}
+
 function normalizeStyleUrls(style: string): string {
   return style
     .replace(STYLE_DOUBLE_QUOTED_URL_REGEX, (_match, url: string) => `url("${normalizeUrlAttribute(url)}")`)
@@ -76,6 +92,12 @@ export function normalizeUrlAttributes($: CheerioAPI, root: MessageSelection): v
       if (value) {
         element.attr(attributeName, normalizeUrlAttribute(value))
       }
+    }
+
+    const srcset = element.attr('srcset')
+
+    if (srcset) {
+      element.attr('srcset', normalizeSrcsetAttribute(srcset))
     }
 
     const style = element.attr('style')

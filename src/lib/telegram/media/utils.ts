@@ -19,6 +19,22 @@ export function getMaybeProxiedUrl(staticProxy: string, url: string): string {
   return PROXYABLE_URL_REGEX.test(url) ? getProxiedUrl(staticProxy, url) : normalizeUrlAttribute(url)
 }
 
+export function getMaybeProxiedSrcset(staticProxy: string, srcset: string): string {
+  return srcset
+    .split(',')
+    .map((candidate) => {
+      const [url, ...descriptors] = candidate.trim().split(/\s+/)
+
+      if (!url) {
+        return ''
+      }
+
+      return [getMaybeProxiedUrl(staticProxy, url), ...descriptors].join(' ')
+    })
+    .filter(Boolean)
+    .join(', ')
+}
+
 function getStyleDimension(style: string | undefined, property: 'width' | 'height'): number | null {
   const value = style?.match(STYLE_DIMENSION_REGEX[property])?.[1]
   return value ? Math.round(Number(value)) : null

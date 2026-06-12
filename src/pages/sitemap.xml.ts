@@ -1,9 +1,9 @@
 import type { APIRoute } from 'astro'
+import { getSitemapUrl, resolveSiteUrl } from '../lib/seo'
 import { getChannelInfo } from '../lib/telegram'
 
 export const GET: APIRoute = async (Astro) => {
-  const request = Astro.request
-  const url = new URL(request.url)
+  const siteUrl = resolveSiteUrl(Astro.locals.SITE_URL, Astro.url.origin)
   const channel = await getChannelInfo(Astro)
   const posts = channel.posts || []
 
@@ -22,7 +22,7 @@ export const GET: APIRoute = async (Astro) => {
   const sitemaps = pages.map((page) => {
     return `
 <sitemap>
-  <loc>${url.origin}/sitemap/${page}.xml</loc>
+  <loc>${getSitemapUrl(siteUrl, `sitemap/${page}.xml`)}</loc>
 </sitemap>`
   })
 

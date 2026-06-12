@@ -88,8 +88,8 @@
 ## Telegram 频道用户名，必须配置。 t.me/ 后面那串字符
 CHANNEL=miantiao_me
 
-## 语言和时区设置，语言选项见[dayjs](https://github.com/iamkun/dayjs/tree/dev/src/locale)
-LOCALE=zh-cn
+## 语言和时区设置，语言选项使用 Intl/BCP 47 locale，例如 zh-CN 或 en
+LOCALE=zh-CN
 TIMEZONE=Asia/Shanghai
 
 ## 社交媒体用户名

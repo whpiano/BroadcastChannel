@@ -89,7 +89,7 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 ## Telegram Channel Username, must be configured. The string of characters following t.me/
 CHANNEL=miantiao_me
 
-## Language and timezone settings, language options see [dayjs](https://github.com/iamkun/dayjs/tree/dev/src/locale)
+## Language and timezone settings. Use an Intl/BCP 47 locale, for example en or zh-CN
 LOCALE=en
 TIMEZONE=America/New_York
 

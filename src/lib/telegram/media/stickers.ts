@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio'
 import type { IndexedStaticProxyOptions, MessageSelection } from '../types'
 import { getProxiedUrl } from '../url'
-import { getImageLoading, getMaybeProxiedUrl } from './utils'
+import { getImageLoading, getMaybeProxiedSrcset, getMaybeProxiedUrl } from './utils'
 
 export function getVideoStickers($: CheerioAPI, message: MessageSelection, options: IndexedStaticProxyOptions): string {
   const { staticProxy = '', index = 0 } = options
@@ -60,7 +60,7 @@ export function getTgsStickers($: CheerioAPI, message: MessageSelection, options
       }
 
       if (srcset) {
-        source.attr('srcset', getMaybeProxiedUrl(staticProxy, srcset))
+        source.attr('srcset', getMaybeProxiedSrcset(staticProxy, srcset))
       }
     }
 
