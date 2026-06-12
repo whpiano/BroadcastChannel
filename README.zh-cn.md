@@ -88,8 +88,8 @@
 ## Telegram 频道用户名，必须配置。 t.me/ 后面那串字符
 CHANNEL=miantiao_me
 
-## 语言和时区设置，语言选项见[dayjs](https://github.com/iamkun/dayjs/tree/dev/src/locale)
-LOCALE=zh-cn
+## 语言和时区设置，语言选项使用 Intl/BCP 47 locale，例如 zh-CN 或 en
+LOCALE=zh-CN
 TIMEZONE=Asia/Shanghai
 
 ## 社交媒体用户名
@@ -99,26 +99,21 @@ GITHUB=miantiao-me
 
 ## 下面两个社交媒体需要为 URL
 DISCORD=https://DISCORD.com
-PODCASRT=https://PODCASRT.com
+PODCAST=https://PODCAST.com
 
 ## 头部尾部代码注入，支持 HTML
 FOOTER_INJECT=FOOTER_INJECT
 HEADER_INJECT=HEADER_INJECT
 
 ## SEO 配置项，可不让搜索引擎索引内容
-NO_FOLLOW=false
-NO_INDEX=false
+NOFOLLOW=false
+NOINDEX=false
 
 ## 隐藏 Telegram 频道简介
 HIDE_DESCRIPTION=false
 
-## Sentry 配置项，收集服务端报错
-SENTRY_AUTH_TOKEN=SENTRY_AUTH_TOKEN
-SENTRY_DSN=SENTRY_DSN
-SENTRY_PROJECT=SENTRY_PROJECT
-
 ## Telegram 主机名称和静态资源代理，不建议修改
-HOST=telegram.dog
+TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
 
 ## 启用谷歌站内搜索

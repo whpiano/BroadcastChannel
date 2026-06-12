@@ -89,7 +89,7 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 ## Telegram Channel Username, must be configured. The string of characters following t.me/
 CHANNEL=miantiao_me
 
-## Language and timezone settings, language options see [dayjs](https://github.com/iamkun/dayjs/tree/dev/src/locale)
+## Language and timezone settings. Use an Intl/BCP 47 locale, for example en or zh-CN
 LOCALE=en
 TIMEZONE=America/New_York
 
@@ -109,19 +109,14 @@ FOOTER_INJECT=FOOTER_INJECT
 HEADER_INJECT=HEADER_INJECT
 
 ## SEO configuration options, can prevent search engines from indexing content
-NO_FOLLOW=false
-NO_INDEX=false
+NOFOLLOW=false
+NOINDEX=false
 
 ## Hide Telegram channel description
 HIDE_DESCRIPTION=false
 
-## Sentry configuration options, collect server-side errors
-SENTRY_AUTH_TOKEN=SENTRY_AUTH_TOKEN
-SENTRY_DSN=SENTRY_DSN
-SENTRY_PROJECT=SENTRY_PROJECT
-
 ## Telegram host name and static resource proxy, not recommended to modify
-HOST=telegram.dog
+TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
 
 ## Enable Google Site Search
