@@ -53,7 +53,7 @@ English | [简体中文](./README.zh-cn.md)
 
 ### Platform
 
-1. Cloudflare Workers
+1. [Cloudflare Workers](https://broadcast-channel.run-on.workers.dev/)
 2. [Netlify](https://broadcast-channel.netlify.app/)
 3. [Vercel](https://broadcast-channel.vercel.app/)
 
