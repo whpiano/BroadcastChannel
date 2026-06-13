@@ -11,10 +11,10 @@ function getProcessEnv(name: string): string | undefined {
  */
 export function getEnv(
   env: Env,
-  Astro: AstroEnvContext,
+  _Astro: AstroEnvContext,
   name: string,
 ): string | undefined {
-  return Astro.locals?.runtime?.env?.[name] ?? getProcessEnv(name) ?? env[name]
+  return getProcessEnv(name) ?? env[name]
 }
 
 export function getStaticProxy(

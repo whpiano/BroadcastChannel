@@ -41,11 +41,7 @@ export interface GetChannelInfoParams {
 }
 
 export interface AstroEnvContext {
-  locals?: App.Locals & {
-    runtime?: {
-      env?: Record<string, string | undefined>
-    }
-  }
+  locals?: App.Locals
   request?: Request
   url?: URL
 }

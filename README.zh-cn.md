@@ -52,11 +52,12 @@
 
 ### 平台
 
-1. [Cloudflare](https://broadcast-channel.pages.dev/)
+1. Cloudflare Workers
 2. [Netlify](https://broadcast-channel.netlify.app/)
 3. [Vercel](https://broadcast-channel.vercel.app/)
 
-广播频道支持部署在 Cloudflare、Netlify、Vercel 等支持 Node.js SSR 的无服务器平台或者 VPS。
+广播频道支持部署在 Cloudflare Workers、Netlify、Vercel 等支持 SSR 的无服务器平台或者 VPS。
+Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持，Cloudflare 部署请使用 Workers。
 具体教程见[部署你的 Astro 站点](https://docs.astro.build/zh-cn/guides/deploy/)。
 
 ## 🧱 技术栈
@@ -75,12 +76,23 @@
 ### Serverless
 
 1. [Fork](https://github.com/miantiao-me/BroadcastChannel/fork) 此项目到你 GitHub
-2. 在 Cloudflare/Netlify/Vercel 创建项目
+2. 在 Cloudflare Workers/Netlify/Vercel 创建项目
 3. 选择 `BroadcastChannel` 项目和 `Astro` 框架
 4. 配置环境变量 `CHANNEL` 为你的频道名称。此为最小化配置，更多配置见下面的配置项
 5. 保存并部署
 6. 绑定域名（可选）。
 7. 更新代码，参考 GitHub 官方文档 [从 Web UI 同步分叉分支](https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)。
+
+Cloudflare Workers 最小命令：
+
+```bash
+pnpm exec wrangler login
+SERVER_ADAPTER=cloudflare_workers pnpm build
+pnpm exec wrangler deploy
+```
+
+请在 Workers 控制台配置 `CHANNEL` 等运行时变量，或使用 `pnpm exec wrangler secret put CHANNEL`。
+Cloudflare Pages SSR 在 Astro 6 + @astrojs/cloudflare v13 下不受支持，请将 Pages 部署迁移到 Workers。
 
 ## ⚒️ 配置
 

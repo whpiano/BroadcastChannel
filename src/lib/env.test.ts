@@ -2,48 +2,30 @@ import type { AstroEnvContext } from '../types'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { getEnv, parseCsvList, parseDelimitedItems } from './env'
 
-function astroWithRuntimeEnv(env: Record<string, string | undefined>): AstroEnvContext {
-  return {
-    locals: {
-      runtime: { env },
-    } as AstroEnvContext['locals'],
-  }
-}
+const astroContext: AstroEnvContext = {}
 
 describe('getEnv', () => {
   afterEach(() => {
     vi.unstubAllEnvs()
   })
 
-  it('prefers Astro runtime env over process.env and import.meta.env', () => {
+  it('prefers process.env over import.meta.env', () => {
     vi.stubEnv('TEST_ENV_PRIORITY', 'process-value')
 
     expect(
       getEnv(
         { TEST_ENV_PRIORITY: 'import-value' },
-        astroWithRuntimeEnv({ TEST_ENV_PRIORITY: 'runtime-value' }),
-        'TEST_ENV_PRIORITY',
-      ),
-    ).toBe('runtime-value')
-  })
-
-  it('falls back to process.env before import.meta.env when runtime env is missing', () => {
-    vi.stubEnv('TEST_ENV_PRIORITY', 'process-value')
-
-    expect(
-      getEnv(
-        { TEST_ENV_PRIORITY: 'import-value' },
-        astroWithRuntimeEnv({}),
+        astroContext,
         'TEST_ENV_PRIORITY',
       ),
     ).toBe('process-value')
   })
 
-  it('falls back to import.meta.env when runtime and process env are missing', () => {
+  it('falls back to import.meta.env when process env is missing', () => {
     expect(
       getEnv(
         { TEST_ENV_PRIORITY: 'import-value' },
-        astroWithRuntimeEnv({}),
+        astroContext,
         'TEST_ENV_PRIORITY',
       ),
     ).toBe('import-value')
