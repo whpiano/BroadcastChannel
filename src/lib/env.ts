@@ -1,15 +1,23 @@
 import type { AstroEnvContext, NavItem } from '../types'
 
+interface RuntimeProcess {
+  env?: Record<string, string | undefined>
+}
+
+function getProcessEnv(name: string): string | undefined {
+  const runtimeProcess = Reflect.get(globalThis, 'process') as RuntimeProcess | undefined
+  return runtimeProcess?.env?.[name]
+}
+
 /**
- * Reads an env variable from Vite's import.meta.env first, then falls back to
- * the Cloudflare/runtime env bindings exposed via Astro.locals.runtime.env.
+ * Runtime envs must win over Vite's build-time import.meta.env values.
  */
 export function getEnv(
   env: Record<string, string | undefined>,
   Astro: AstroEnvContext,
   name: string,
 ): string | undefined {
-  return env[name] ?? Astro.locals?.runtime?.env?.[name]
+  return Astro.locals?.runtime?.env?.[name] ?? getProcessEnv(name) ?? env[name]
 }
 
 export function getStaticProxy(

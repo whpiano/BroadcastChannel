@@ -105,8 +105,8 @@ DISCORD=https://DISCORD.com
 PODCAST=https://PODCAST.com
 
 ## Header and footer code injection, supports HTML
-FOOTER_INJECT=FOOTER_INJECT
-HEADER_INJECT=HEADER_INJECT
+FOOTER_INJECT=
+HEADER_INJECT=
 
 ## SEO configuration options, can prevent search engines from indexing content
 NOFOLLOW=false
