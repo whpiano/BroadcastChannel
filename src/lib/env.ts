@@ -1,19 +1,16 @@
 import type { AstroEnvContext, NavItem } from '../types'
 
-interface RuntimeProcess {
-  env?: Record<string, string | undefined>
-}
+type Env = Record<string, string | undefined>
 
 function getProcessEnv(name: string): string | undefined {
-  const runtimeProcess = Reflect.get(globalThis, 'process') as RuntimeProcess | undefined
-  return runtimeProcess?.env?.[name]
+  return (Reflect.get(globalThis, 'process') as { env?: Env } | undefined)?.env?.[name]
 }
 
 /**
  * Runtime envs must win over Vite's build-time import.meta.env values.
  */
 export function getEnv(
-  env: Record<string, string | undefined>,
+  env: Env,
   Astro: AstroEnvContext,
   name: string,
 ): string | undefined {
@@ -21,14 +18,14 @@ export function getEnv(
 }
 
 export function getStaticProxy(
-  env: Record<string, string | undefined>,
+  env: Env,
   Astro: AstroEnvContext,
 ): string {
   return getEnv(env, Astro, 'STATIC_PROXY') ?? '/static/'
 }
 
 export function getPodcastUrl(
-  env: Record<string, string | undefined>,
+  env: Env,
   Astro: AstroEnvContext,
 ): string | undefined {
   return getEnv(env, Astro, 'PODCAST')
@@ -39,7 +36,7 @@ export function isEnabled(value: string | boolean | undefined): boolean {
 }
 
 export function getBooleanEnv(
-  env: Record<string, string | undefined>,
+  env: Env,
   Astro: AstroEnvContext,
   name: string,
 ): boolean | undefined {
