@@ -51,7 +51,8 @@
     "std-env": "^4.1.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "wrangler": "^4.100.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
