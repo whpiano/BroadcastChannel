@@ -19,7 +19,7 @@ describe('json feed builder', () => {
       tags: ['tag'],
       text: 'Post text',
       description: 'Post summary',
-      content: '<p>Hello</p><script>alert(1)</script>',
+      content: '<p>Hello</p><pre class="code"><code class="language-js"><span class="token keyword">const</span></code></pre><script>alert(1)</script>',
       reactions: [],
     }]
 
@@ -44,7 +44,7 @@ describe('json feed builder', () => {
       title: 'Post title',
       summary: 'Post summary',
       tags: ['tag'],
-      content_html: '<p>Hello</p>',
+      content_html: '<p>Hello</p><pre class="code"><code class="language-js"><span class="token keyword">const</span></code></pre>',
     })
     expect(typeof feed.items[0]?.date_published).toBe('string')
   })

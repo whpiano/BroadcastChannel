@@ -1,4 +1,4 @@
-@import 'prismjs/themes/prism.css';
+@import 'prismjs/themes/prism.css' layer(components);
 
 /* Order matters because these modules share the same cascade layer. */
 @import './content/typography.css';

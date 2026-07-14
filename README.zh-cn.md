@@ -64,7 +64,7 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 
 - 框架：[Astro](https://astro.build/)
 - 内容管理系统：[Telegram Channels](https://telegram.org/tour/channels)
-- 模板: [Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- 主题：兼容 Bear 的 Base，可选用 [Sepia](https://github.com/Planetable/SiteTemplateSepia)
 
 ## 🏗️ 部署
 
@@ -113,7 +113,7 @@ GITHUB=miantiao-me
 DISCORD=https://DISCORD.com
 PODCAST=https://PODCAST.com
 
-## 头部尾部代码注入，支持 HTML
+## 可信管理员使用的头部、尾部原始 HTML 注入
 FOOTER_INJECT=
 HEADER_INJECT=
 
@@ -143,12 +143,41 @@ REACTIONS=true
 ## 链接页面中的超链接, 使用英文逗号和分号分割
 LINKS=Title1,URL1;Title2,URL3;Title3,URL3;
 
-## 侧边栏导航项, 使用英文逗号和分号分割
+## 站点导航项，使用英文逗号和分号分割
 NAVS=Title1,URL1;Title2,URL3;Title3,URL3;
 
 ## 启用 RSS 美化
 RSS_BEAUTIFY=true
 ```
+
+## 🎨 主题
+
+BroadcastChannel 始终加载兼容 Bear 的 Base 主题。不配置任何主题时，网站就使用 Base。
+
+内置 Sepia 覆盖主题位于 `/themes/sepia.css`，可通过 `HEADER_INJECT` 作为覆盖层加载：
+
+```env
+HEADER_INJECT='<link rel="stylesheet" href="/themes/sepia.css">'
+```
+
+这会得到 **Base + Sepia**。如需使用自定义主题，请将普通 CSS 托管在你自己的 URL，并用相同方式引入：
+
+```env
+HEADER_INJECT='<link rel="stylesheet" href="https://example.com/theme.css">'
+```
+
+这会得到 **Base + 自定义主题**。建议一次只加载一个覆盖主题，以免规则相互冲突。项目不存在 `THEME` 环境变量、主题切换 JavaScript、主题注册表，也不会自动下载 Bear CSS。
+
+Base 兼容以下 Bear 变量：
+
+- 布局与字体：`--width`、`--font-main`、`--font-secondary`、`--font-scale`
+- 颜色：`--background-color`、`--heading-color`、`--text-color`、`--link-color`、`--visited-color`、`--code-background-color`、`--code-color`、`--blockquote-color`
+
+公共样式 hook 包括 `body.home`、`body.blog`、`body.post`、`body.page`、`header > a.title > h1`、`nav`、`main`、`footer`、`.tags`、`.highlight` 和 `.code`。
+
+兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。首页会保留完整的 Telegram 内容流，不实现 Bear 的 `.blog-posts` 日期加标题结构，因此只针对该结构的主题规则不会生效。
+
+`HEADER_INJECT` 是供可信管理员使用的原始 HTML，可以包含任意文档 head 内容。切勿接受不可信输入。外部主题的许可证、安全性和可访问性由使用者负责。
 
 ## 🙋🏻 常问问题
 

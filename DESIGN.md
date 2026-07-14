@@ -1,246 +1,140 @@
 ---
-version: alpha
-name: BroadcastChannel Sepia
-description: "Warm, readable Telegram-channel microblog design for server-rendered timelines."
-colors:
-  primary: "#333333"
-  secondary: "#706862"
-  tertiary: "#b23b00"
-  neutral: "#f4f1ec"
+version: beta
+name: BroadcastChannel Theme Architecture
+description: "Bear-compatible Base with an optional BroadcastChannel Sepia override."
+defaultTheme: Base
+optionalThemes:
+  sepia: /themes/sepia.css
+publicVariables:
+  width: 800px
+  font-main: "Verdana, sans-serif"
+  font-secondary: "Verdana, sans-serif"
+  font-scale: 1em
+  background-color: "#fff"
+  heading-color: "#222"
+  text-color: "#444"
+  link-color: "#3273dc"
+  visited-color: "#8b6fcb"
+  code-background-color: "#f2f2f2"
+  code-color: "#222"
+  blockquote-color: "#222"
+sepia:
   paper: "#f4f1ec"
-  ink: "#000000"
+  ink: "#181513"
   heading: "#333333"
   accent: "#b23b00"
   surface: "#ffffff"
-  code: "#f9f9f9"
   muted: "#706862"
   link: "#5a6570"
   link-hover: "#3f4850"
-  line: "rgba(0, 0, 0, 0.05)"
-  footer: "#666666"
-  inverse: "#ffffff"
-  overlay: "rgba(0, 0, 0, 0.80)"
-typography:
-  site-title:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 20px
-    fontWeight: 600
-    lineHeight: 1.25
-  headline-lg:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 24px
-    fontWeight: 700
-    lineHeight: 1.2
-  headline-md:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 20px
-    fontWeight: 700
-    lineHeight: 1.25
-  body-md:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 16px
-    fontWeight: 400
-    lineHeight: 1.6
-  body-sm:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 14px
-    fontWeight: 400
-    lineHeight: 1.5
-  meta:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 14px
-    fontWeight: 500
-    lineHeight: 1
-  caption:
-    fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif"
-    fontSize: 12px
-    fontWeight: 400
-    lineHeight: 1.5
-spacing:
-  hairline: 1px
-  xxs: 2px
-  xs: 4px
-  sm: 6px
-  md: 8px
-  panel: 10px
-  lg: 16px
-  xl: 20px
-  xxl: 32px
-  content-max: 896px
-  sidebar: 208px
-rounded:
-  panel: 3px
-  chip: 4px
-  media: 8px
-  full: 9999px
-components:
-  page-shell:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    padding: 20px
-    width: "{spacing.content-max}"
-  skip-link:
-    backgroundColor: "{colors.heading}"
-    textColor: "{colors.inverse}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.panel}"
-    padding: 10px
-  nav-link:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.heading}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.panel}"
-    padding: 10px
-  nav-link-current:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.heading}"
-    rounded: "{rounded.panel}"
-  search-field:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.heading}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.panel}"
-    padding: 8px
-  timeline-dot:
-    backgroundColor: "{colors.accent}"
-    rounded: "{rounded.full}"
-    size: 8px
-  timeline-link:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.accent}"
-    typography: "{typography.meta}"
-  body-link:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.link}"
-    typography: "{typography.body-md}"
-  body-link-hover:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.link-hover}"
-    typography: "{typography.body-md}"
-  tag-chip:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.muted}"
-    typography: "{typography.body-sm}"
-    rounded: "{rounded.chip}"
-    padding: 10px
-  reaction-pill:
-    backgroundColor: "{colors.code}"
-    textColor: "{colors.muted}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.full}"
-    padding: 8px
-  content-card:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.panel}"
-    padding: 10px
-  media-frame:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.media}"
-  divider:
-    backgroundColor: "{colors.line}"
-    height: 1px
-  back-to-top:
-    backgroundColor: "{colors.code}"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.full}"
-    size: 32px
-  footer-text:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.footer}"
-    typography: "{typography.body-sm}"
-  modal-overlay:
-    backgroundColor: "{colors.overlay}"
-    textColor: "{colors.inverse}"
-  modal-close:
-    backgroundColor: "rgba(0, 0, 0, 0.72)"
-    textColor: "{colors.inverse}"
-    rounded: "{rounded.full}"
-    size: 40px
+  line: "rgba(0, 0, 0, 0.07)"
 ---
 
 # BroadcastChannel Design System
 
-## Overview
+## Theme architecture
 
-BroadcastChannel presents Telegram channels as a quiet, server-rendered microblog. The visual identity is **sepia editorial minimalism**: warm paper, dark ink, a restrained burnt-orange timeline accent, and almost no browser-side ornamentation.
+BroadcastChannel always ships a small, first-party **Base** theme. Base is the complete default experience: plain, single-column, content-first, and behaviorally compatible with Bear themes where the product structures overlap.
 
-The interface should feel fast, readable, and personal rather than app-like. Favor semantic HTML, low chrome, clear timelines, and content-first composition. The current implementation source for most tokens is `src/styles/app.css`.
+Themes are CSS overrides, not application state:
 
-## Colors
+- No additional stylesheet means **Base**.
+- Loading `/themes/sepia.css` after Base means **Base + Sepia**.
+- Loading a user stylesheet such as `xyz.css` through `HEADER_INJECT` means **Base + xyz**.
+- There is no theme provider, theme environment variable, browser-side switch, registry, or upstream CSS synchronization.
 
-The palette is intentionally small and warm.
+CSS overrides only affect the rendered document. Non-CSS metadata such as `site.webmanifest` colors and the browser `theme-color` keep their Base defaults and do not automatically follow Sepia or user stylesheets.
 
-- **Primary / Heading (`#333333`):** stable dark gray for titles, focus rings, and navigation text.
-- **Secondary / Muted (`#706862`):** sepia gray for descriptions, reaction counts, placeholders, and secondary copy.
-- **Tertiary / Accent (`#b23b00`):** burnt orange for the timeline dot, timestamps, tag hover states, blockquote rails, and active emphasis.
-- **Neutral / Paper (`#f4f1ec`):** warm page background; it should remain visible around content instead of being replaced by full white panels.
-- **Surface (`#ffffff`) and Code (`#f9f9f9`):** quiet raised surfaces for cards, code blocks, reactions, and inline content modules.
-- **Line (`rgba(0, 0, 0, 0.05)`):** very soft separators; avoid strong borders unless they communicate structure.
-- **Links (`#5a6570` → `#3f4850`):** subdued slate links; use the accent color only when an item belongs to the timeline or is the primary interaction.
+First-party themeable rules live in named cascade layers. `HEADER_INJECT` is trusted raw HTML in `<head>`; Astro may emit its bundled stylesheet link later in the rendered head, but a normal unlayered user stylesheet still takes precedence over the named first-party layers. Prism is also included in a named first-party layer.
 
-## Typography
+Sepia is intentionally distributed as an unlayered static override. It is not loaded by default. Deployments opt into it with a stylesheet link in `HEADER_INJECT` or another equivalent head injection.
 
-Use the system sans stack only. Do not introduce webfonts unless the product direction changes; the current identity depends on native rendering, speed, and low operational complexity.
+## Public compatibility contract
 
-- **Site title:** 20px, semibold, compact line height.
-- **Content body:** 16px with `1.6` line height for mixed Telegram text, media, and rich previews.
-- **Metadata:** 14px medium for timestamps and timeline labels.
-- **Captions / search / reactions:** 12px–14px with restrained weight.
-- **Markdown content:** H1/H2 are bold but modest; avoid oversized editorial display type because posts are usually short and dense.
+Base defines and uses these public variables:
 
-## Layout
+```css
+:root {
+  --width: 800px;
+  --font-main: Verdana, sans-serif;
+  --font-secondary: Verdana, sans-serif;
+  --font-scale: 1em;
+  --background-color: #fff;
+  --heading-color: #222;
+  --text-color: #444;
+  --link-color: #3273dc;
+  --visited-color: #8b6fcb;
+  --code-background-color: #f2f2f2;
+  --code-color: #222;
+  --blockquote-color: #222;
+}
+```
 
-The page uses a narrow fixed maximum width with responsive behavior:
+`--width` controls the rendered body width. Following Bear's variable semantics, body text and Tailwind's `font-sans` bridge use `--font-secondary`, while `h1`–`h6` use `--font-main`. Link and visited states use their respective variables. Headings, code, and blockquotes also consume the matching public variables rather than fixed project colors.
 
-- Outer margin: 20px on small screens and desktop.
-- Main grid: maximum width 896px.
-- Desktop: content column with a right sticky sidebar, separated by a soft right border on the main column.
-- Mobile: sidebar collapses into a sticky top strip above the feed.
-- Timeline: posts align on a vertical rail with an 8px accent dot and generous vertical rhythm around post content.
-- Content media should stay within the text column and retain a small margin so the paper background remains visible.
+Base follows Bear's dark-mode convention under `prefers-color-scheme: dark`: background `#01242e`, heading `#eee`, text `#ddd`, links `#8cc2dd`, visited links `#8b6fcb`, code background `#000`, code text `#ddd`, and blockquotes `#ccc`.
 
-Spacing follows Tailwind's 4px-based scale, with 10px (`2.5`) used frequently for panel padding and microblog rhythm.
+The public shell uses real site-level elements:
 
-## Elevation & Depth
+```text
+header.site-header
+  > a.avatar-link
+    > img.channel-avatar
+  > a.title
+    > h1
+  > nav.social-links
+nav.site-navigation
+main#main-content
+footer.site-footer
+```
 
-Depth is subtle. Use tonal separation, hairline borders, and the existing `shadow-soft` treatment rather than heavy shadows. Elevated elements should feel like paper placed on paper, not floating app cards.
+Rendered HTML routes set an explicit body page class:
 
-Use shadows for avatars, media frames, code blocks, current navigation items, and small controls. Avoid stacking multiple shadow styles on the same view.
+- `/` → `home`
+- `/before/**`, `/after/**`, and search results → `blog`
+- `/posts/[id]` → `post`
+- `/tags` and `/links` → `page`
 
-## Shapes
+The timeline exposes `.post-entry`, `.post-meta`, `.post-content`, `.post-reactions`, `.reaction-paid`, `.tags`, `.post-tags`, and `.post-comments`. Telegram code blocks have the stable shape `pre.code > code.language-*`; Prism adds nested `.token` spans when a grammar is available. Base also styles `.highlight` as an inbound compatibility hook, but the Telegram renderer does not synthesize that class.
 
-The shape language is slightly softened but not bubbly.
+`--code-color` controls plain code text and participates in the first-party Prism token palette. Syntax tokens also derive from other public theme colors so they remain distinguishable; `--code-color` is not an override for every token category. All first-party token rules remain in a named cascade layer, allowing ordinary unlayered user CSS to override them.
 
-- Panels and inline modules use a 3px radius.
-- Chips use a 4px radius.
-- Media uses an 8px radius.
-- Circular controls and timeline dots use a full radius.
+The home page remains a full Telegram content stream. It does not output or imitate Bear's `.blog-posts` date-and-title list, so themes that only style that list are outside the compatibility promise.
 
-Do not mix large rounded cards with the existing compact sepia style unless the whole visual system is intentionally revised.
+## Base direction
 
-## Components
+Base should feel close to an uncustomized personal Bear blog without reproducing Bear's stylesheet:
 
-- **Timeline item:** timestamp link in accent, 8px accent dot, and a soft vertical rail. Keep post content aligned to the rail.
-- **Header:** avatar, channel title, and social icons should remain compact. Icons use filter-based muted states and should not dominate the title.
-- **Navigation:** small text links with subtle white hover/current backgrounds. Current state uses soft shadow plus surface tint, not accent fills.
-- **Search:** quiet bordered field in the sidebar; on mobile it opens from a compact icon in the sticky top strip.
-- **Tags and links:** chip-like text links with muted default color and accent hover color.
-- **Reactions:** small rounded pills on the timeline rail; paid reactions may use a separate gold tint but should stay visually secondary.
-- **Telegram content modules:** blockquotes, expandable text, link previews, code, tables, and media should use existing content styles and sanitize external HTML before rendering.
-- **Back to top:** small circular affordance in the bottom corner, low opacity, with a slight upward hover movement.
-- **Modals:** image preview modals use a dark translucent overlay, strong backdrop blur, and one clear circular close button.
+- one readable column controlled by `--width`;
+- Verdana defaults and modest heading scale;
+- direct links, simple rules, and restrained controls;
+- no Sepia timeline rail, burnt-orange accents, paper shadows, or card styling;
+- responsive navigation and search without a public sidebar;
+- complete Telegram text, media, previews, reactions, tags, comments, pagination, and back-to-top behavior.
 
-## Do's and Don'ts
+Base supports light and dark system preferences. It keeps keyboard focus visible, provides a skip link, honors reduced motion, and avoids requiring browser JavaScript for layout or theme behavior.
 
-- Do keep the page warm, quiet, and content-first.
-- Do keep contrast at WCAG AA or better for text and controls.
-- Do reuse the tokens in `src/styles/app.css` and update this file when those tokens change.
-- Do keep client-side JavaScript near zero; Telegram comments are the deliberate exception.
-- Don't introduce new accent colors for routine actions.
-- Don't replace the timeline with card-heavy layouts without a product-level redesign.
-- Don't overuse shadows, gradients, animations, or large rounded corners.
-- Don't feed unsanitized external Telegram HTML into rendered content.
+## Optional Sepia direction
+
+Sepia preserves BroadcastChannel's original identity as an override rather than the platform default. It uses warm paper, dark ink, restrained burnt orange, quiet white surfaces, soft separators, and the timeline rail/dot treatment.
+
+- **Paper:** `#f4f1ec`
+- **Ink:** `#181513`
+- **Heading:** `#333333`
+- **Accent:** `#b23b00`
+- **Muted:** `#706862`
+- **Links:** `#5a6570` to `#3f4850`
+- **Surface:** `#ffffff`
+
+The optional theme may use BroadcastChannel-specific selectors for the Telegram stream, but it should drive ordinary typography and colors through the same public variables whenever possible. It keeps the single-column shell; the former desktop sidebar is not part of the public theme architecture.
+
+Sepia's character comes from the accent timestamp and dot, soft vertical rail, paper-on-paper media depth, compact tag and reaction treatments, and small navigation surfaces. Avoid large rounded cards, loud gradients, excessive motion, or app-like chrome.
+
+## Accessibility and content rules
+
+- First-party controls and project-owned palette choices target WCAG AA contrast. Exact compatibility defaults such as Bear's `--visited-color`, and any third-party theme overrides, remain the theme author's responsibility.
+- Preserve visible keyboard focus, the skip link, semantic landmarks, and usable mobile targets.
+- Honor `prefers-reduced-motion` in Base and optional themes.
+- Do not place article metadata or tags in bare `header`, `footer`, or `nav` elements that broad third-party theme selectors could accidentally restyle.
+- Keep Telegram comments as the deliberate browser-script exception.
+- Sanitize external Telegram HTML before rendering it. `HEADER_INJECT` and `FOOTER_INJECT` are the only intentional trusted raw HTML paths.

@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/base.astro'
-import Header from '../components/header.astro'
 import TagCloudSection from '../components/TagCloudSection.astro'
 import { getChannelInfo } from '../lib/telegram'
 import { getEnv, parseDelimitedItems } from '../lib/env'
@@ -21,8 +20,6 @@ const items = links.map((link) => ({
 }))
 ---
 
-<Layout channel={channel} seo={pageSeo}>
-  <Header channel={channel} />
-
+<Layout channel={channel} seo={pageSeo} pageType="page">
   <TagCloudSection id="links" title="Links" items={items} />
 </Layout>

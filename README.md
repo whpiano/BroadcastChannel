@@ -65,7 +65,7 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 
 - Framework: [Astro](https://astro.build/)
 - CMS: [Telegram Channels](https://telegram.org/tour/channels)
-- Template: [Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- Theme: Bear-compatible Base, with optional [Sepia](https://github.com/Planetable/SiteTemplateSepia)
 
 ## 🏗️ Deployment
 
@@ -116,7 +116,7 @@ BLUESKY=bsky.app
 DISCORD=https://DISCORD.com
 PODCAST=https://PODCAST.com
 
-## Header and footer code injection, supports HTML
+## Trusted-administrator header and footer raw HTML injection
 FOOTER_INJECT=
 HEADER_INJECT=
 
@@ -146,12 +146,41 @@ REACTIONS=true
 ## List of links in the Links page, Separate using commas and semicolons
 LINKS=Title1,URL1;Title2,URL3;Title3,URL3;
 
-## Sidebar Navigation Item, Separate using commas and semicolons
+## Site Navigation Items, separate using commas and semicolons
 NAVS=Title1,URL1;Title2,URL3;Title3,URL3;
 
 ## Enable RSS beautify
 RSS_BEAUTIFY=true
 ```
+
+## 🎨 Themes
+
+BroadcastChannel always loads its Bear-compatible Base theme. With no theme configuration, the site uses Base.
+
+The built-in Sepia override is available at `/themes/sepia.css`. Load it as an override through `HEADER_INJECT`:
+
+```env
+HEADER_INJECT='<link rel="stylesheet" href="/themes/sepia.css">'
+```
+
+This produces **Base + Sepia**. To use a custom theme, host a normal CSS file at a URL you control and inject it in the same way:
+
+```env
+HEADER_INJECT='<link rel="stylesheet" href="https://example.com/theme.css">'
+```
+
+This produces **Base + your theme**. Load only one override theme at a time to avoid conflicting rules. There is no `THEME` environment variable, theme-switching JavaScript, theme registry, or automatic download of Bear CSS.
+
+The Base theme supports these Bear variables:
+
+- Layout and type: `--width`, `--font-main`, `--font-secondary`, `--font-scale`
+- Colors: `--background-color`, `--heading-color`, `--text-color`, `--link-color`, `--visited-color`, `--code-background-color`, `--code-color`, `--blockquote-color`
+
+Common styling hooks include `body.home`, `body.blog`, `body.post`, `body.page`, `header > a.title > h1`, `nav`, `main`, `footer`, `.tags`, `.highlight`, and `.code`.
+
+Compatibility is intentionally limited rather than official or 100% Bear compatibility. The home page keeps the complete Telegram content stream and does not implement Bear's `.blog-posts` date-and-title structure, so theme rules that target only that structure will not apply.
+
+`HEADER_INJECT` is trusted-administrator raw HTML and can contain arbitrary content for the document head. Never populate it with untrusted input. You are responsible for the license, security, and accessibility of external themes.
 
 ## 🙋🏻 FAQs
 

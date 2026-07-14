@@ -66,8 +66,10 @@ export async function modifyHTMLContent($: CheerioAPI, content: MessageSelection
   }
 
   for (const preNode of content.find('pre').toArray()) {
+    const pre = $(preNode)
+    pre.addClass('code')
+
     try {
-      const pre = $(preNode)
       pre.find('br').replaceWith('\n')
 
       const code = pre.text()
