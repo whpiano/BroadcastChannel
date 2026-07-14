@@ -65,7 +65,8 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 
 - Framework: [Astro](https://astro.build/)
 - CMS: [Telegram Channels](https://telegram.org/tour/channels)
-- Theme: Bear-compatible Base, with optional [Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- Theme inspiration and CSS compatibility: [Bear Blog](https://github.com/HermanMartinus/bearblog) (independently implemented, with no official affiliation or Bear source files included)
+- Optional theme: [Sepia](https://github.com/Planetable/SiteTemplateSepia)
 
 ## 🏗️ Deployment
 
@@ -155,7 +156,7 @@ RSS_BEAUTIFY=true
 
 ## 🎨 Themes
 
-BroadcastChannel always loads its Bear-compatible Base theme. With no theme configuration, the site uses Base.
+BroadcastChannel always loads its Bear-compatible Base theme. With no theme configuration, the site uses Base. BroadcastChannel remains authoritative for layout, the complete Telegram feed, features, and routes; Bear compatibility governs CSS visual defaults and the public theme interface.
 
 The built-in Sepia override is available at `/themes/sepia.css`. Load it as an override through `HEADER_INJECT`:
 
@@ -176,9 +177,9 @@ The Base theme supports these Bear variables:
 - Layout and type: `--width`, `--font-main`, `--font-secondary`, `--font-scale`
 - Colors: `--background-color`, `--heading-color`, `--text-color`, `--link-color`, `--visited-color`, `--code-background-color`, `--code-color`, `--blockquote-color`
 
-Common styling hooks include `body.home`, `body.blog`, `body.post`, `body.page`, `header > a.title > h1`, `nav`, `main`, `footer`, `.tags`, `.highlight`, and `.code`.
+The Bear-facing public hooks are `body.home`, `body.post`, `body.page`, `header > a.title > h1`, `header > nav`, `main`, `footer`, `.tags`, `pre.code`, and `.highlight` for inbound content compatibility.
 
-Compatibility is intentionally limited rather than official or 100% Bear compatibility. The home page keeps the complete Telegram content stream and does not implement Bear's `.blog-posts` date-and-title structure, so theme rules that target only that structure will not apply.
+BroadcastChannel extensions include `body.feed`, `.posts-feed`, `.post-entry`, reactions, comments, and Telegram widgets. Compatibility is intentionally limited rather than official or 100% Bear compatibility. Feed pages keep the complete Telegram content stream; the project does not add `/blog` or `/feed` routes or implement Bear's `ul.blog-posts` date-and-title structure, so theme rules that target only that structure will not apply. Post detail keeps its title visually hidden, and no Subscribe form is synthesized.
 
 `HEADER_INJECT` is trusted-administrator raw HTML and can contain arbitrary content for the document head. Never populate it with untrusted input. You are responsible for the license, security, and accessibility of external themes.
 

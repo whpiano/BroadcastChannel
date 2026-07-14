@@ -64,7 +64,8 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 
 - 框架：[Astro](https://astro.build/)
 - 内容管理系统：[Telegram Channels](https://telegram.org/tour/channels)
-- 主题：兼容 Bear 的 Base，可选用 [Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- 主题灵感与 CSS 兼容来源：[Bear Blog](https://github.com/HermanMartinus/bearblog)（独立实现，与 Bear 无官方关系，未包含其源文件）
+- 可选主题：[Sepia](https://github.com/Planetable/SiteTemplateSepia)
 
 ## 🏗️ 部署
 
@@ -152,7 +153,7 @@ RSS_BEAUTIFY=true
 
 ## 🎨 主题
 
-BroadcastChannel 始终加载兼容 Bear 的 Base 主题。不配置任何主题时，网站就使用 Base。
+BroadcastChannel 始终加载兼容 Bear 的 Base 主题。不配置任何主题时，网站就使用 Base。页面布局、完整 Telegram Feed、功能和路由以 BroadcastChannel 为主；CSS 默认视觉与公共主题接口以 Bear 兼容为主。
 
 内置 Sepia 覆盖主题位于 `/themes/sepia.css`，可通过 `HEADER_INJECT` 作为覆盖层加载：
 
@@ -173,9 +174,9 @@ Base 兼容以下 Bear 变量：
 - 布局与字体：`--width`、`--font-main`、`--font-secondary`、`--font-scale`
 - 颜色：`--background-color`、`--heading-color`、`--text-color`、`--link-color`、`--visited-color`、`--code-background-color`、`--code-color`、`--blockquote-color`
 
-公共样式 hook 包括 `body.home`、`body.blog`、`body.post`、`body.page`、`header > a.title > h1`、`nav`、`main`、`footer`、`.tags`、`.highlight` 和 `.code`。
+面向 Bear 的公共样式 hook 为 `body.home`、`body.post`、`body.page`、`header > a.title > h1`、`header > nav`、`main`、`footer`、`.tags`、`pre.code`，以及用于入站内容兼容的 `.highlight`。
 
-兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。首页会保留完整的 Telegram 内容流，不实现 Bear 的 `.blog-posts` 日期加标题结构，因此只针对该结构的主题规则不会生效。
+BroadcastChannel 扩展包括 `body.feed`、`.posts-feed`、`.post-entry`、Reaction、评论和 Telegram widgets。兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。Feed 页面保留完整 Telegram 内容流；项目不会新增 `/blog` 或 `/feed` 路由，也不会实现 Bear 的 `ul.blog-posts` 日期加标题结构，因此只针对该结构的主题规则不会生效。Post 详情标题继续仅供辅助技术读取，也不会伪造 Subscribe 表单。
 
 `HEADER_INJECT` 是供可信管理员使用的原始 HTML，可以包含任意文档 head 内容。切勿接受不可信输入。外部主题的许可证、安全性和可访问性由使用者负责。
 

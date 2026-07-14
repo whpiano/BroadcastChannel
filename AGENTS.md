@@ -5,6 +5,14 @@
 - Treat this file as the maintained repo guide; `CLAUDE.md` may lag behind it.
 - No repo-local `opencode.json`, `.opencode/`, `.cursor/rules/`, `.cursorrules`, or `.github/copilot-instructions.md` is present.
 - For any visible UI/design change, read `@DESIGN.md` first; implementation tokens live in `src/styles/app.css` and `src/styles/content/**`.
+- Theme provenance and third-party acknowledgements are maintained in `NOTICE.md`.
+
+## Theme provenance
+
+- Base is the default Bear-compatible theme; bundled optional overrides live under `public/themes/`.
+- Every newly bundled theme must add or update its own `NOTICE.md` entry in the same change, including the upstream project URL, author or copyright holder, license and license URL, and whether the implementation is inspired by or adapted from the upstream work.
+- Also update the README theme credits when a bundled theme is added or its provenance changes.
+- Do not copy upstream theme code unless its license compatibility and notice requirements have been reviewed. Distinguish visual inspiration from source adaptation accurately.
 
 ## Stack and commands
 
@@ -26,7 +34,7 @@
 ## Architecture notes
 
 - `src/pages/` contains Astro pages and API-style routes; `src/pages/index.astro` is intentionally thin and calls `getChannelInfo(Astro)`.
-- `src/layouts/base.astro` wires global CSS, `astro-seo`, nav/sidebar, RSS links, `HEADER_INJECT`, and `FOOTER_INJECT`.
+- `src/layouts/base.astro` wires global CSS, `astro-seo`, the site header/navigation, RSS links, `HEADER_INJECT`, and `FOOTER_INJECT`.
 - `src/middleware.ts` sets `SITE_URL`/`RSS_URL` locals, handles legacy `#tag` search rewrites, and adds speculation/cache headers.
 - Telegram fetching/parsing belongs in `src/lib/telegram/**`; request caching uses `ocache` with 5 min max age, SWR enabled, and 1 hour stale max age.
 - Shared env helpers are in `src/lib/env.ts`; they read `import.meta.env` first and fall back to `Astro.locals.runtime.env` for runtime bindings.
@@ -51,4 +59,4 @@
 - Follow ESLint formatting: 2 spaces, LF, UTF-8, single quotes, usually no semicolons; let `pnpm lint:fix` settle import order.
 - Preserve local naming: Astro route filenames follow routing syntax, newer reusable components use `PascalCase.astro`, older `header.astro`/`item.astro` stay lowercase.
 - External Telegram HTML must be sanitized via `src/lib/sanitize.ts` before `set:html`; config injections in `base.astro` are the only intentional raw HTML path.
-- Design changes should keep the sepia, content-first system from `@DESIGN.md`: warm paper background, restrained burnt-orange accent, system sans fonts, subtle borders/shadows, and no card-heavy redesigns unless explicitly requested.
+- Design changes should preserve the content-first Base contract from `@DESIGN.md`; Sepia is an optional warm-paper override, not the default. Avoid card-heavy redesigns unless explicitly requested.

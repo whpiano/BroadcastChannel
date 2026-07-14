@@ -1,9 +1,6 @@
 ---
-import ChannelAvatar from '../../components/ChannelAvatar.astro'
 import List from '../../components/list.astro'
 import { getChannelInfo, getChannelPost } from '../../lib/telegram'
-
-const { SITE_URL } = Astro.locals
 
 const channelInfo = await getChannelInfo(Astro)
 
@@ -37,15 +34,4 @@ const channel = {
   pageHeading={post.title || channel.title}
   pageSeo={post}
   pageType="post"
->
-  <div slot="header" class="breadcrumb" role="navigation" aria-label="Breadcrumb">
-    <ol>
-      <li>
-        <a href={SITE_URL} title={channel?.title}>
-          <ChannelAvatar channel={channel} alt="" loading="eager" width="20" height="20" class="breadcrumb-avatar" />
-          <span>{channel.title}</span>
-        </a>
-      </li>
-    </ol>
-  </div>
-</List>
+/>

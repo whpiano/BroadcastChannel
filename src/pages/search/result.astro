@@ -13,4 +13,12 @@ const pageSeo: SeoMeta = {
 }
 ---
 
-<List channel={channel} before={false} after={false} pageHeading={`Search: ${q}`} pageSeo={pageSeo} pageType="blog" />
+<List
+  channel={channel}
+  before={false}
+  after={false}
+  pageClass="feed"
+  pageHeading={`Search: ${q}`}
+  pageSeo={pageSeo}
+  pageType="page"
+/>

@@ -1,6 +1,6 @@
-/* BroadcastChannel's optional warm-paper theme. Load after the first-party Base stylesheet. */
+/* Optional warm-paper override for BroadcastChannel Base. */
 :root {
-  --width: 896px;
+  --width: 800px;
   --font-main: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-secondary: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-scale: 1em;
@@ -39,8 +39,12 @@ body {
   color: var(--text-color);
 }
 
+hr {
+  border-top: 1px solid var(--border-color);
+}
+
 .site-header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
 }
 
 .site-header > .title > h1 {
@@ -87,7 +91,11 @@ body {
 .site-navigation {
   gap: 0.5rem;
   padding: 0.5rem 0;
-  border-block-color: var(--border-color);
+  border-block: 1px solid var(--border-color);
+}
+
+.site-header > .site-navigation {
+  margin-top: 0.25rem;
 }
 
 .site-navigation > ul {
@@ -191,7 +199,9 @@ body {
 }
 
 .reaction {
-  border-color: var(--border-color);
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
   background: var(--code-background-color);
   color: var(--muted-color);
   box-shadow: var(--shadow-soft);
@@ -209,8 +219,11 @@ body {
 
 .tags a:link,
 .tags a:visited {
-  border-color: var(--border-color);
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-chip);
   color: var(--muted-color);
+  text-decoration: none;
 }
 
 .tags a:hover {
@@ -223,7 +236,8 @@ body {
 }
 
 .pagination a {
-  border-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
   background: var(--code-background-color);
   color: var(--muted-color);
   box-shadow: var(--shadow-soft);
@@ -246,14 +260,12 @@ body {
   break-inside: avoid;
 }
 
-.breadcrumb-avatar {
-  border: 2px solid var(--surface-color);
-  box-shadow: var(--shadow-soft);
-}
-
 .site-footer {
-  border-top-color: var(--border-color);
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  padding-bottom: 0;
   color: var(--muted-color);
+  text-align: left;
 }
 
 #back-to-top {
@@ -269,11 +281,44 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
+.content pre {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-panel);
+}
+
+.content > iframe,
+.content img:not(.tg-emoji):not(.sticker):not(.link_preview_image):not(.modal-img) {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-media);
+}
+
+.content :not(pre) > code {
+  border-radius: var(--radius-panel);
+}
+
+.content table tr {
+  border-top: 1px solid var(--border-color);
+  background: var(--surface-color);
+}
+
+.content table tr:nth-child(2n),
+.content table tr th {
+  background: var(--code-background-color);
+}
+
 .content blockquote,
 .content .tg-expandable,
 .content .tgme_widget_message_link_preview:has(.link_preview_site_name) {
   border-left-color: var(--accent-color);
   background: var(--surface-color);
+}
+
+.content blockquote {
+  padding: 0.375rem 0.375rem 0.375rem 0.625rem;
+  border-left-width: 3px;
+  border-radius: var(--radius-panel);
+  font-size: 0.8em;
+  font-style: normal;
 }
 
 @media (max-width: 37.5rem) {

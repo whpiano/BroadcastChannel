@@ -47,7 +47,7 @@ const socialLinks = buildSocialLinks({
   <a href={SITE_URL} class="title" title={channel?.title}>
     <h1>{channel?.title}</h1>
   </a>
-  <nav class="social-links" aria-label="Channel links">
+  <div class="social-links" role="group" aria-label="Channel links">
     {
       socialLinks.map((item) => (
         <a href={item.href} title={item.title} target="_blank" rel={item.rel} type={item.type} aria-label={item.label}>
@@ -55,10 +55,11 @@ const socialLinks = buildSocialLinks({
         </a>
       ))
     }
-  </nav>
+  </div>
   {
     !hideDescription && descriptionHtml.length > 0 && (
       <div class="channel-description content" set:html={descriptionHtml} />
     )
   }
+  <slot />
 </header>

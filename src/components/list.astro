@@ -9,6 +9,7 @@ const {
   before = true,
   after = true,
   isItem = false,
+  pageClass,
   pageHeading,
   pageSeo,
   pageType,
@@ -17,9 +18,10 @@ const {
   before?: boolean
   after?: boolean
   isItem?: boolean
+  pageClass?: string
   pageHeading?: string
   pageSeo?: SeoMeta
-  pageType: 'home' | 'blog' | 'post' | 'page'
+  pageType: 'home' | 'post' | 'page'
 }
 const posts = channel.posts ?? []
 
@@ -29,7 +31,7 @@ const hasOlderPosts = before && beforeCursor && Number(beforeCursor) > 1
 const hasNewerPosts = after && afterCursor
 ---
 
-<Layout channel={channel} seo={pageSeo} pageType={pageType}>
+<Layout channel={channel} pageClass={pageClass} seo={pageSeo} pageType={pageType}>
   {pageHeading ? <h1 class="sr-only">{pageHeading}</h1> : null}
   <slot name="header" />
   <ol class="posts-feed" aria-label={isItem ? 'Post' : 'Posts'}>

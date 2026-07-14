@@ -10,9 +10,10 @@ import { getPageSeo } from '../lib/seo'
 import type { ChannelInfo, SeoMeta } from '../types'
 
 const { SITE_URL, RSS_URL, RSS_PREFIX } = Astro.locals
-const { channel, pageType, seo } = Astro.props as {
+const { channel, pageClass, pageType, seo } = Astro.props as {
   channel: ChannelInfo
-  pageType: 'home' | 'blog' | 'post' | 'page'
+  pageClass?: string
+  pageType: 'home' | 'post' | 'page'
   seo?: SeoMeta
 }
 
@@ -58,22 +59,23 @@ const skipLinkText = 'Skip to main content'
     <Fragment set:html={HEADER_INJECT} />
   </head>
 
-  <body class={pageType}>
+  <body class:list={[pageType, pageClass]}>
     <a href="#main-content" class="skip-link">{skipLinkText}</a>
-    <Header channel={channel} />
-    <NavSidebar
-      channelTitle={channel?.title}
-      currentPathname={currentPathname}
-      googleSearchSite={GOOGLE_SEARCH_SITE}
-      linksPathname={linksPathname}
-      navs={navs}
-      searchAction={searchAction}
-      showLinks={Boolean(LINKS)}
-      showTags={Boolean(TAGS)}
-      siteRootPathname={siteRootPathname}
-      siteUrl={SITE_URL}
-      tagsPathname={tagsPathname}
-    />
+    <Header channel={channel}>
+      <NavSidebar
+        channelTitle={channel?.title}
+        currentPathname={currentPathname}
+        googleSearchSite={GOOGLE_SEARCH_SITE}
+        linksPathname={linksPathname}
+        navs={navs}
+        searchAction={searchAction}
+        showLinks={Boolean(LINKS)}
+        showTags={Boolean(TAGS)}
+        siteRootPathname={siteRootPathname}
+        siteUrl={SITE_URL}
+        tagsPathname={tagsPathname}
+      />
+    </Header>
     <main id="main-content">
       <slot />
     </main>

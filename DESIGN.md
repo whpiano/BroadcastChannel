@@ -34,7 +34,7 @@ sepia:
 
 ## Theme architecture
 
-BroadcastChannel always ships a small, first-party **Base** theme. Base is the complete default experience: plain, single-column, content-first, and behaviorally compatible with Bear themes where the product structures overlap.
+BroadcastChannel always ships a small, first-party **Base** theme. Base is the complete default experience: plain, single-column, content-first, and behaviorally compatible with Bear themes where the product structures overlap. BroadcastChannel remains authoritative for page layout, the complete Telegram feed, features, and routes; Bear compatibility is authoritative for CSS visual defaults and the public theme interface.
 
 Themes are CSS overrides, not application state:
 
@@ -82,24 +82,28 @@ header.site-header
     > img.channel-avatar
   > a.title
     > h1
-  > nav.social-links
-nav.site-navigation
+  > div.social-links[role="group"]
+  > div.channel-description (when configured)
+  > nav.site-navigation
 main#main-content
 footer.site-footer
 ```
 
 Rendered HTML routes set an explicit body page class:
 
-- `/` → `home`
-- `/before/**`, `/after/**`, and search results → `blog`
+- `/` → `home feed`
+- `/before/**` and `/after/**` → `home feed`
+- search results → `page feed`
 - `/posts/[id]` → `post`
 - `/tags` and `/links` → `page`
 
-The timeline exposes `.post-entry`, `.post-meta`, `.post-content`, `.post-reactions`, `.reaction-paid`, `.tags`, `.post-tags`, and `.post-comments`. Telegram code blocks have the stable shape `pre.code > code.language-*`; Prism adds nested `.token` spans when a grammar is available. Base also styles `.highlight` as an inbound compatibility hook, but the Telegram renderer does not synthesize that class.
+The Bear-facing public hooks are `body.home`, `body.post`, `body.page`, `header > a.title > h1`, `header > nav`, `main`, `footer`, `.tags`, and `pre.code`. Base also styles `.highlight` as an inbound compatibility hook, but the Telegram renderer does not synthesize that class. Telegram code blocks have the stable shape `pre.code > code.language-*`; Prism adds nested `.token` spans when a grammar is available.
+
+BroadcastChannel extensions include `body.feed`, `.posts-feed`, `.post-entry`, `.post-meta`, `.post-content`, `.post-reactions`, `.reaction-paid`, `.post-tags`, `.post-comments`, and Telegram widget selectors. They remain stable enough for the bundled themes but are not presented as Bear-native structures.
 
 `--code-color` controls plain code text and participates in the first-party Prism token palette. Syntax tokens also derive from other public theme colors so they remain distinguishable; `--code-color` is not an override for every token category. All first-party token rules remain in a named cascade layer, allowing ordinary unlayered user CSS to override them.
 
-The home page remains a full Telegram content stream. It does not output or imitate Bear's `.blog-posts` date-and-title list, so themes that only style that list are outside the compatibility promise.
+Feed pages remain complete Telegram content streams. The project does not add `/blog` or `/feed` routes and does not output or imitate Bear's `ul.blog-posts` date-and-title list, so themes that only style that structure are outside the compatibility promise. Post detail keeps its page heading visually hidden and does not add a visible post title. Subscribe UI is not synthesized when no such product capability exists.
 
 ## Base direction
 
@@ -132,7 +136,7 @@ Sepia's character comes from the accent timestamp and dot, soft vertical rail, p
 
 ## Accessibility and content rules
 
-- First-party controls and project-owned palette choices target WCAG AA contrast. Exact compatibility defaults such as Bear's `--visited-color`, and any third-party theme overrides, remain the theme author's responsibility.
+- First-party controls and project-owned palette choices target WCAG AA where compatible with Bear's defaults. Bear's exact `--visited-color` and color-only default link treatment are compatibility exceptions; third-party theme overrides remain the theme author's responsibility.
 - Preserve visible keyboard focus, the skip link, semantic landmarks, and usable mobile targets.
 - Honor `prefers-reduced-motion` in Base and optional themes.
 - Do not place article metadata or tags in bare `header`, `footer`, or `nav` elements that broad third-party theme selectors could accidentally restyle.
