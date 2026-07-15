@@ -66,6 +66,8 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 - 内容管理系统：[Telegram Channels](https://telegram.org/tour/channels)
 - 主题灵感与 CSS 兼容来源：[Bear Blog](https://github.com/HermanMartinus/bearblog)（独立实现，与 Bear 无官方关系，未包含其源文件）
 - 可选主题：[Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- 可选主题灵感：[Terminal](https://github.com/panr/hugo-theme-terminal)
+- 可选主题灵感：[Aria](https://github.com/miantiao-me/astro-aria)
 
 ## 🏗️ 部署
 
@@ -153,32 +155,33 @@ RSS_BEAUTIFY=true
 
 ## 🎨 主题
 
-BroadcastChannel 始终加载兼容 Bear 的 Base 主题。不配置任何主题时，网站就使用 Base。页面布局、完整 Telegram Feed、功能和路由以 BroadcastChannel 为主；CSS 默认视觉与公共主题接口以 Bear 兼容为主。
+BroadcastChannel 始终加载完整的 Base 主题，并提供有限的 Bear CSS 兼容面。不配置即使用 Base，也可以且只能加载一个内置覆盖主题：
 
-内置 Sepia 覆盖主题位于 `/themes/sepia.css`，可通过 `HEADER_INJECT` 作为覆盖层加载：
+- `/themes/sepia.css`
+- `/themes/aria.css`
+- `/themes/terminal-amber.css`
+- `/themes/terminal-green.css`
+- `/themes/terminal-cyan.css`
+- `/themes/terminal-magenta.css`
+
+例如：
 
 ```env
-HEADER_INJECT='<link rel="stylesheet" href="/themes/sepia.css">'
+HEADER_INJECT='<link rel="stylesheet" href="/themes/aria.css">'
 ```
 
-这会得到 **Base + Sepia**。如需使用自定义主题，请将普通 CSS 托管在你自己的 URL，并用相同方式引入：
-
-```env
-HEADER_INJECT='<link rel="stylesheet" href="https://example.com/theme.css">'
-```
-
-这会得到 **Base + 自定义主题**。建议一次只加载一个覆盖主题，以免规则相互冲突。项目不存在 `THEME` 环境变量、主题切换 JavaScript、主题注册表，也不会自动下载 Bear CSS。
+`/themes/terminal-base.css` 仅供四种 Terminal 配色内部共享，不可单独加载；项目不存在 `/themes/terminal.css`。所有精确配置、明暗模式行为、平台环境变量值、自定义 CSS 和可信管理员安全边界请参阅 **[THEMES.md](./THEMES.md)**。
 
 Base 兼容以下 Bear 变量：
 
 - 布局与字体：`--width`、`--font-main`、`--font-secondary`、`--font-scale`
 - 颜色：`--background-color`、`--heading-color`、`--text-color`、`--link-color`、`--visited-color`、`--code-background-color`、`--code-color`、`--blockquote-color`
 
+`--width` 表示最大内容宽度；body 的水平 padding 计算在该宽度之外。
+
 面向 Bear 的公共样式 hook 为 `body.home`、`body.post`、`body.page`、`header > a.title > h1`、`header > nav`、`main`、`footer`、`.tags`、`pre.code`，以及用于入站内容兼容的 `.highlight`。
 
-BroadcastChannel 扩展包括 `body.feed`、`.posts-feed`、`.post-entry`、Reaction、评论和 Telegram widgets。兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。Feed 页面保留完整 Telegram 内容流；项目不会新增 `/blog` 或 `/feed` 路由，也不会实现 Bear 的 `ul.blog-posts` 日期加标题结构，因此只针对该结构的主题规则不会生效。Post 详情标题继续仅供辅助技术读取，也不会伪造 Subscribe 表单。
-
-`HEADER_INJECT` 是供可信管理员使用的原始 HTML，可以包含任意文档 head 内容。切勿接受不可信输入。外部主题的许可证、安全性和可访问性由使用者负责。
+BroadcastChannel 扩展包括 `body.feed`、`ol.posts-feed`、`.post-entry`、`p.tags.post-tags`、Reaction、评论和 Telegram widgets。兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。Feed 页面保留完整 Telegram 内容流；项目不会新增 `/blog` 或 `/feed` 路由，也不会实现 Bear 的 `ul.blog-posts` 日期加标题结构。Post 详情标题继续仅供辅助技术读取，也不会伪造 Subscribe 表单。
 
 ## 🙋🏻 常问问题
 

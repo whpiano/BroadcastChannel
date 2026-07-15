@@ -2,8 +2,8 @@
 import '../styles/app.css'
 import { SEO } from 'astro-seo'
 import BackToTop from '../components/BackToTop.astro'
-import Header from '../components/header.astro'
-import NavSidebar from '../components/NavSidebar.astro'
+import SiteHeader from '../components/SiteHeader.astro'
+import SiteNavigation from '../components/SiteNavigation.astro'
 import SiteFooter from '../components/SiteFooter.astro'
 import { getEnv, parseDelimitedItems } from '../lib/env'
 import { getPageSeo } from '../lib/seo'
@@ -17,25 +17,25 @@ const { channel, pageClass, pageType, seo } = Astro.props as {
   seo?: SeoMeta
 }
 
-const locale = getEnv(import.meta.env, Astro, 'LOCALE')
-const twitter = getEnv(import.meta.env, Astro, 'TWITTER')
+const locale = getEnv(import.meta.env, 'LOCALE')
+const twitter = getEnv(import.meta.env, 'TWITTER')
 const { currentPathname, hasCustomTitle, linksPathname, seoParams, siteRootPathname, siteTitle, tagsPathname } =
   getPageSeo({
-    Astro,
     channel,
     locale,
     seo,
     siteUrl: SITE_URL,
+    url: Astro.url,
   })
 
-const GOOGLE_SEARCH_SITE = getEnv(import.meta.env, Astro, 'GOOGLE_SEARCH_SITE')
+const GOOGLE_SEARCH_SITE = getEnv(import.meta.env, 'GOOGLE_SEARCH_SITE')
 const searchAction = GOOGLE_SEARCH_SITE ? 'https://www.google.com/search' : `${SITE_URL}search/result`
 
-const HEADER_INJECT = getEnv(import.meta.env, Astro, 'HEADER_INJECT')
-const FOOTER_INJECT = getEnv(import.meta.env, Astro, 'FOOTER_INJECT')
-const TAGS = getEnv(import.meta.env, Astro, 'TAGS')
-const LINKS = getEnv(import.meta.env, Astro, 'LINKS')
-const navs = parseDelimitedItems(getEnv(import.meta.env, Astro, 'NAVS'))
+const HEADER_INJECT = getEnv(import.meta.env, 'HEADER_INJECT')
+const FOOTER_INJECT = getEnv(import.meta.env, 'FOOTER_INJECT')
+const TAGS = getEnv(import.meta.env, 'TAGS')
+const LINKS = getEnv(import.meta.env, 'LINKS')
+const navs = parseDelimitedItems(getEnv(import.meta.env, 'NAVS'))
 
 const skipLinkText = 'Skip to main content'
 ---
@@ -61,8 +61,8 @@ const skipLinkText = 'Skip to main content'
 
   <body class:list={[pageType, pageClass]}>
     <a href="#main-content" class="skip-link">{skipLinkText}</a>
-    <Header channel={channel}>
-      <NavSidebar
+    <SiteHeader channel={channel}>
+      <SiteNavigation
         channelTitle={channel?.title}
         currentPathname={currentPathname}
         googleSearchSite={GOOGLE_SEARCH_SITE}
@@ -75,7 +75,7 @@ const skipLinkText = 'Skip to main content'
         siteUrl={SITE_URL}
         tagsPathname={tagsPathname}
       />
-    </Header>
+    </SiteHeader>
     <main id="main-content">
       <slot />
     </main>

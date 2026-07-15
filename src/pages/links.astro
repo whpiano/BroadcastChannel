@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/base.astro'
-import TagCloudSection from '../components/TagCloudSection.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import DirectorySection from '../components/DirectorySection.astro'
 import { getChannelInfo } from '../lib/telegram'
 import { getEnv, parseDelimitedItems } from '../lib/env'
 
-const channel = await getChannelInfo(Astro)
+const channel = await getChannelInfo()
 const pageSeo = { title: 'Links' }
-const links = parseDelimitedItems(getEnv(import.meta.env, Astro, 'LINKS'))
+const links = parseDelimitedItems(getEnv(import.meta.env, 'LINKS'))
 
 if (!links.length) {
   return Astro.redirect('/')
@@ -20,6 +20,6 @@ const items = links.map((link) => ({
 }))
 ---
 
-<Layout channel={channel} seo={pageSeo} pageType="page">
-  <TagCloudSection id="links" title="Links" items={items} />
-</Layout>
+<BaseLayout channel={channel} seo={pageSeo} pageType="page">
+  <DirectorySection id="links" title="Links" items={items} />
+</BaseLayout>

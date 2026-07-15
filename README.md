@@ -67,6 +67,8 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 - CMS: [Telegram Channels](https://telegram.org/tour/channels)
 - Theme inspiration and CSS compatibility: [Bear Blog](https://github.com/HermanMartinus/bearblog) (independently implemented, with no official affiliation or Bear source files included)
 - Optional theme: [Sepia](https://github.com/Planetable/SiteTemplateSepia)
+- Optional theme inspiration: [Terminal](https://github.com/panr/hugo-theme-terminal)
+- Optional theme inspiration: [Aria](https://github.com/miantiao-me/astro-aria)
 
 ## 🏗️ Deployment
 
@@ -156,32 +158,33 @@ RSS_BEAUTIFY=true
 
 ## 🎨 Themes
 
-BroadcastChannel always loads its Bear-compatible Base theme. With no theme configuration, the site uses Base. BroadcastChannel remains authoritative for layout, the complete Telegram feed, features, and routes; Bear compatibility governs CSS visual defaults and the public theme interface.
+BroadcastChannel always loads its complete Base theme, which provides a limited Bear CSS compatibility surface. Use Base without configuration, or load exactly one built-in override:
 
-The built-in Sepia override is available at `/themes/sepia.css`. Load it as an override through `HEADER_INJECT`:
+- `/themes/sepia.css`
+- `/themes/aria.css`
+- `/themes/terminal-amber.css`
+- `/themes/terminal-green.css`
+- `/themes/terminal-cyan.css`
+- `/themes/terminal-magenta.css`
+
+For example:
 
 ```env
-HEADER_INJECT='<link rel="stylesheet" href="/themes/sepia.css">'
+HEADER_INJECT='<link rel="stylesheet" href="/themes/aria.css">'
 ```
 
-This produces **Base + Sepia**. To use a custom theme, host a normal CSS file at a URL you control and inject it in the same way:
-
-```env
-HEADER_INJECT='<link rel="stylesheet" href="https://example.com/theme.css">'
-```
-
-This produces **Base + your theme**. Load only one override theme at a time to avoid conflicting rules. There is no `THEME` environment variable, theme-switching JavaScript, theme registry, or automatic download of Bear CSS.
+`/themes/terminal-base.css` is shared internally by the four Terminal palettes and must not be loaded directly; there is no `/themes/terminal.css`. See **[THEMES.md](./THEMES.md)** for every exact configuration, light/dark behavior, platform environment-variable values, custom CSS, and the trusted-administrator security boundary.
 
 The Base theme supports these Bear variables:
 
 - Layout and type: `--width`, `--font-main`, `--font-secondary`, `--font-scale`
 - Colors: `--background-color`, `--heading-color`, `--text-color`, `--link-color`, `--visited-color`, `--code-background-color`, `--code-color`, `--blockquote-color`
 
+`--width` is the maximum content width; the body's horizontal padding is added outside that width.
+
 The Bear-facing public hooks are `body.home`, `body.post`, `body.page`, `header > a.title > h1`, `header > nav`, `main`, `footer`, `.tags`, `pre.code`, and `.highlight` for inbound content compatibility.
 
-BroadcastChannel extensions include `body.feed`, `.posts-feed`, `.post-entry`, reactions, comments, and Telegram widgets. Compatibility is intentionally limited rather than official or 100% Bear compatibility. Feed pages keep the complete Telegram content stream; the project does not add `/blog` or `/feed` routes or implement Bear's `ul.blog-posts` date-and-title structure, so theme rules that target only that structure will not apply. Post detail keeps its title visually hidden, and no Subscribe form is synthesized.
-
-`HEADER_INJECT` is trusted-administrator raw HTML and can contain arbitrary content for the document head. Never populate it with untrusted input. You are responsible for the license, security, and accessibility of external themes.
+BroadcastChannel extensions include `body.feed`, `ol.posts-feed`, `.post-entry`, `p.tags.post-tags`, reactions, comments, and Telegram widgets. Compatibility is intentionally limited rather than official or 100% Bear compatibility. Feed pages keep the complete Telegram content stream; the project does not add `/blog` or `/feed` routes or implement Bear's `ul.blog-posts` date-and-title structure. Post detail keeps its title visually hidden, and no Subscribe form is synthesized.
 
 ## 🙋🏻 FAQs
 

@@ -3,8 +3,7 @@ import type { IndexedStaticProxyOptions, MessageSelection, StaticProxyOptions } 
 import flourite from 'flourite'
 import prism, { ensurePrismLanguage } from '../prism'
 import { getCustomEmojiImage } from './emoji'
-import { proxyStyleUrls } from './renderers/html'
-import { normalizeUrlAttribute, normalizeUrlAttributes } from './url'
+import { normalizeUrlAttribute, normalizeUrlAttributes, proxyStyleUrls } from './url'
 
 interface ModifyHTMLContentOptions extends IndexedStaticProxyOptions {
   telegramHost?: string

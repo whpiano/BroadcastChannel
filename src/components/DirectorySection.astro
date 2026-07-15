@@ -1,10 +1,15 @@
 ---
-import type { TagCloudItem } from '../types'
+interface DirectoryItem {
+  href: string
+  label: string
+  title?: string
+  external?: boolean
+}
 
 const { id, title, items } = Astro.props as {
   id?: string
   title: string
-  items: TagCloudItem[]
+  items: DirectoryItem[]
 }
 const titleId = id ?? `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'section'}-title`
 ---

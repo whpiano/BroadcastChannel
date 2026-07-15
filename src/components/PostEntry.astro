@@ -4,15 +4,15 @@ import { sanitizeContentHtml } from '../lib/sanitize'
 import { formatPostTime, getReactionLabel, getTagHref, paidReactionClass } from '../lib/post-ui'
 import type { Post } from '../types'
 
-const locale = getEnv(import.meta.env, Astro, 'LOCALE')
-const timezone = getEnv(import.meta.env, Astro, 'TIMEZONE')
+const locale = getEnv(import.meta.env, 'LOCALE')
+const timezone = getEnv(import.meta.env, 'TIMEZONE')
 
 const { SITE_URL } = Astro.locals
-const { post, isItem } = Astro.props as { post: Post; isItem?: boolean }
+const { post, isDetail } = Astro.props as { post: Post; isDetail?: boolean }
 
-const channelName = getEnv(import.meta.env, Astro, 'CHANNEL')
-const commentsEnabled = getBooleanEnv(import.meta.env, Astro, 'COMMENTS')
-const reactionsEnabled = getBooleanEnv(import.meta.env, Astro, 'REACTIONS')
+const channelName = getEnv(import.meta.env, 'CHANNEL')
+const commentsEnabled = getBooleanEnv(import.meta.env, 'COMMENTS')
+const reactionsEnabled = getBooleanEnv(import.meta.env, 'REACTIONS')
 
 const timeago = await formatPostTime(post.datetime, timezone, locale)
 const contentHtml = sanitizeContentHtml(post.content)
@@ -62,19 +62,19 @@ const hasTags = post.tags.length > 0
   }
   {
     hasTags && (
-      <div class="tags post-tags">
+      <p class="tags post-tags">
         <span class="tag-icon" aria-hidden="true" />
         {post.tags.map((tag: string) => (
           <a href={getTagHref(tag)} title={tag}>
             {tag}
           </a>
         ))}
-      </div>
+      </p>
     )
   }
 
   {
-    commentsEnabled && isItem && (
+    commentsEnabled && isDetail && (
       <section class="post-comments" aria-label="Telegram comments">
         {/* Telegram comments are the only intentional client-side JS exception. */}
         <script

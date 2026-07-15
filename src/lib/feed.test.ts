@@ -27,7 +27,6 @@ describe('json feed builder', () => {
       channel,
       posts,
       siteUrl: new URL('https://example.com/blog/'),
-      tag: null,
       title: 'Feed title',
     })
 

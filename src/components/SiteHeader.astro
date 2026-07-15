@@ -1,22 +1,22 @@
 ---
 import { Icon } from 'astro-icon/components'
 import ChannelAvatar from './ChannelAvatar.astro'
-import { getBooleanEnv, getEnv, getPodcastUrl } from '../lib/env'
+import { getBooleanEnv, getEnv } from '../lib/env'
 import { sanitizeContentHtml } from '../lib/sanitize'
 import { buildSocialLinks } from '../lib/social'
 
 const { SITE_URL, RSS_URL } = Astro.locals
 const { channel } = Astro.props
 
-const PODCAST = getPodcastUrl(import.meta.env, Astro)
-const TWITTER = getEnv(import.meta.env, Astro, 'TWITTER')
-const GITHUB = getEnv(import.meta.env, Astro, 'GITHUB')
-const TELEGRAM = getEnv(import.meta.env, Astro, 'TELEGRAM')
-const DISCORD = getEnv(import.meta.env, Astro, 'DISCORD')
-const MASTODON = getEnv(import.meta.env, Astro, 'MASTODON')
-const BLUESKY = getEnv(import.meta.env, Astro, 'BLUESKY')
+const PODCAST = getEnv(import.meta.env, 'PODCAST')
+const TWITTER = getEnv(import.meta.env, 'TWITTER')
+const GITHUB = getEnv(import.meta.env, 'GITHUB')
+const TELEGRAM = getEnv(import.meta.env, 'TELEGRAM')
+const DISCORD = getEnv(import.meta.env, 'DISCORD')
+const MASTODON = getEnv(import.meta.env, 'MASTODON')
+const BLUESKY = getEnv(import.meta.env, 'BLUESKY')
 
-const hideDescription = getBooleanEnv(import.meta.env, Astro, 'HIDE_DESCRIPTION')
+const hideDescription = getBooleanEnv(import.meta.env, 'HIDE_DESCRIPTION')
 const descriptionHtml = channel?.descriptionHTML ? sanitizeContentHtml(channel.descriptionHTML) : ''
 const homeLabel = channel?.title ? `Home — ${channel.title}` : 'Home'
 

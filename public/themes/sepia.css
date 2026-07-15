@@ -1,6 +1,7 @@
 /* Optional warm-paper override for BroadcastChannel Base. */
 :root {
   --width: 800px;
+  --body-padding-inline: 1.25rem;
   --font-main: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-secondary: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-scale: 1em;
@@ -34,7 +35,7 @@ html {
 }
 
 body {
-  padding: 1.25rem;
+  padding-inline: var(--body-padding-inline);
   background: var(--background-color);
   color: var(--text-color);
 }
@@ -282,8 +283,19 @@ hr {
 }
 
 .content pre {
+  padding: 0.625rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-panel);
+}
+
+.highlight pre,
+.code pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .content > iframe,
@@ -293,6 +305,7 @@ hr {
 }
 
 .content :not(pre) > code {
+  padding: 2px 4px;
   border-radius: var(--radius-panel);
 }
 
