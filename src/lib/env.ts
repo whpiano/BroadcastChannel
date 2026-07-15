@@ -1,4 +1,4 @@
-import type { AstroEnvContext, NavItem } from '../types'
+import type { NavItem } from '../types'
 
 type Env = Record<string, string | undefined>
 
@@ -11,46 +11,21 @@ function getProcessEnv(name: string): string | undefined {
 /**
  * Runtime envs must win over Vite's build-time import.meta.env values.
  */
-export function getEnv(
-  env: Env,
-  _Astro: AstroEnvContext,
-  name: string,
-): string | undefined {
+export function getEnv(env: Env, name: string): string | undefined {
   return getProcessEnv(name) ?? env[name]
 }
 
-export function getStaticProxy(
-  env: Env,
-  Astro: AstroEnvContext,
-): string {
-  return getEnv(env, Astro, 'STATIC_PROXY') ?? '/static/'
+export function getStaticProxy(env: Env): string {
+  return getEnv(env, 'STATIC_PROXY') ?? '/static/'
 }
 
-export function getTelegramHost(
-  env: Env,
-  Astro: AstroEnvContext,
-): string {
-  return getEnv(env, Astro, 'TELEGRAM_HOST') ?? DEFAULT_TELEGRAM_HOST
+export function getTelegramHost(env: Env): string {
+  return getEnv(env, 'TELEGRAM_HOST') ?? DEFAULT_TELEGRAM_HOST
 }
 
-export function getPodcastUrl(
-  env: Env,
-  Astro: AstroEnvContext,
-): string | undefined {
-  return getEnv(env, Astro, 'PODCAST')
-}
-
-export function isEnabled(value: string | boolean | undefined): boolean {
-  return value === true || value === 'true' || value === '1'
-}
-
-export function getBooleanEnv(
-  env: Env,
-  Astro: AstroEnvContext,
-  name: string,
-): boolean | undefined {
-  const value = getEnv(env, Astro, name)
-  return value === undefined ? undefined : isEnabled(value)
+export function getBooleanEnv(env: Env, name: string): boolean | undefined {
+  const value = getEnv(env, name)
+  return value === undefined ? undefined : value === 'true' || value === '1'
 }
 
 export function parseDelimitedItems(value = ''): NavItem[] {
