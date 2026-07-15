@@ -3,6 +3,7 @@ import {
   getBooleanEnv,
   getEnv,
   getStaticProxy,
+  getTargetWhitelist,
   getTelegramHost,
   parseCsvList,
   parseDelimitedItems,
@@ -102,6 +103,37 @@ describe('getTelegramHost', () => {
     vi.stubEnv('TELEGRAM_HOST', 'telegram.dog')
 
     expect(getTelegramHost({})).toBe('telegram.dog')
+  })
+})
+
+describe('getTargetWhitelist', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('returns no additions when unset', () => {
+    vi.stubEnv('TARGET_WHITELIST', undefined)
+
+    expect(getTargetWhitelist({})).toEqual([])
+  })
+
+  it('prefers the runtime value and normalizes hostnames', () => {
+    vi.stubEnv('TARGET_WHITELIST', ' A.com, b.COM, a.com, sub.Example.com ')
+
+    expect(getTargetWhitelist({ TARGET_WHITELIST: 'build.example' })).toEqual([
+      'a.com',
+      'b.com',
+      'sub.example.com',
+    ])
+  })
+
+  it('ignores values that are not DNS hostnames', () => {
+    vi.stubEnv(
+      'TARGET_WHITELIST',
+      'https://a.com,a.com:443,a.com/path,a.com?x=1,a.com#x,*.a.com,127.0.0.1,::1,localhost',
+    )
+
+    expect(getTargetWhitelist({})).toEqual([])
   })
 })
 

@@ -23,6 +23,14 @@ export function getTelegramHost(env: Env): string {
   return getEnv(env, 'TELEGRAM_HOST') ?? DEFAULT_TELEGRAM_HOST
 }
 
+export function getTargetWhitelist(env: Env): string[] {
+  const hostnames = parseCsvList(getEnv(env, 'TARGET_WHITELIST'))
+    .map(hostname => hostname.toLowerCase())
+    .filter(isValidHostname)
+
+  return [...new Set(hostnames)]
+}
+
 export function getBooleanEnv(env: Env, name: string): boolean | undefined {
   const value = getEnv(env, name)
   return value === undefined ? undefined : value === 'true' || value === '1'
@@ -45,4 +53,15 @@ export function parseCsvList(value = ''): string[] {
     .split(',')
     .map(item => item.trim())
     .filter(Boolean)
+}
+
+function isValidHostname(hostname: string): boolean {
+  if (hostname.length > 253 || !hostname.includes('.'))
+    return false
+
+  const labels = hostname.split('.')
+  if (labels.every(label => /^\d+$/.test(label)))
+    return false
+
+  return labels.every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label))
 }

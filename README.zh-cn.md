@@ -162,6 +162,8 @@ GOOGLE_SEARCH_SITE=memo.miantiao.me
 ## 高级（一般无需修改）
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
+# 在默认白名单基础上追加代理目标；仅填写域名，以英文逗号分隔（不含协议、端口或路径）。
+TARGET_WHITELIST=a.com,b.com
 ```
 
 ## 🎨 主题

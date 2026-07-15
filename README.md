@@ -162,6 +162,8 @@ GOOGLE_SEARCH_SITE=memo.miantiao.me
 ## Advanced (usually leave as-is)
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
+# Append hostname-only proxy targets to the defaults, separated by commas (no protocol, port, or path).
+TARGET_WHITELIST=a.com,b.com
 ```
 
 ## 🎨 Themes
