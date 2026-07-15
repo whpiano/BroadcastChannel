@@ -52,8 +52,8 @@ async function fetchTelegramHtml({ host, channel, id, before, after, q, headers 
 const loadTelegramHtml = defineCachedFunction(fetchTelegramHtml, {
   name: 'telegram-html',
   maxAge: 60 * 5,
-  swr: true,
-  staleMaxAge: 60 * 60,
+  // A detached refresh has no Cloudflare waitUntil context and can leave a stuck pending promise.
+  swr: false,
   getKey: ({ host, channel, id, before, after, q }) => JSON.stringify({
     host,
     channel,
