@@ -117,6 +117,13 @@ describe('getTargetWhitelist', () => {
     expect(getTargetWhitelist({})).toEqual([])
   })
 
+  it('returns no additions when the environment object is unavailable', () => {
+    vi.stubEnv('TARGET_WHITELIST', undefined)
+
+    expect(() => getTargetWhitelist(undefined)).not.toThrow()
+    expect(getTargetWhitelist(undefined)).toEqual([])
+  })
+
   it('prefers the runtime value and normalizes hostnames', () => {
     vi.stubEnv('TARGET_WHITELIST', ' A.com, b.COM, a.com, sub.Example.com ')
 

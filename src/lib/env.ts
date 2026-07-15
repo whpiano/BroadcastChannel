@@ -11,8 +11,8 @@ function getProcessEnv(name: string): string | undefined {
 /**
  * Runtime envs must win over Vite's build-time import.meta.env values.
  */
-export function getEnv(env: Env, name: string): string | undefined {
-  return getProcessEnv(name) ?? env[name]
+export function getEnv(env: Env | undefined, name: string): string | undefined {
+  return getProcessEnv(name) ?? env?.[name]
 }
 
 export function getStaticProxy(env: Env): string {
@@ -23,7 +23,7 @@ export function getTelegramHost(env: Env): string {
   return getEnv(env, 'TELEGRAM_HOST') ?? DEFAULT_TELEGRAM_HOST
 }
 
-export function getTargetWhitelist(env: Env): string[] {
+export function getTargetWhitelist(env: Env | undefined): string[] {
   const hostnames = parseCsvList(getEnv(env, 'TARGET_WHITELIST'))
     .map(hostname => hostname.toLowerCase())
     .filter(isValidHostname)
