@@ -84,12 +84,14 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 ### Serverless
 
 1. [Fork](https://github.com/miantiao-me/BroadcastChannel/fork) this project to your GitHub
-2. Create a project on Cloudflare Workers/Netlify/Vercel
+2. Create a project on Cloudflare Workers/Netlify/Vercel/EdgeOne
 3. Select the `BroadcastChannel` project and the `Astro` framework
 4. Configure the environment variable `CHANNEL` with your channel name. This is the minimal configuration; see [Configuration](#configuration) for more
 5. Save and deploy
 6. Bind a domain (optional)
 7. Update code, refer to the official GitHub documentation [Syncing a fork branch from the web UI](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)
+
+EdgeOne is supported and detected automatically through std-env's `edgeone_pages` provider or the platform-provided `EDGEONE_PROJECT_ID`/`EO_MAKERS` variables. Set `SERVER_ADAPTER` only when you need to override automatic adapter detection.
 
 Cloudflare Workers minimal commands:
 
@@ -162,6 +164,8 @@ GOOGLE_SEARCH_SITE=memo.miantiao.me
 ## Advanced (usually leave as-is)
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
+# Override automatic adapter detection when needed.
+SERVER_ADAPTER=
 # Append hostname-only proxy targets to the defaults, separated by commas (no protocol, port, or path).
 TARGET_WHITELIST=a.com,b.com
 ```

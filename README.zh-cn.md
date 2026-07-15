@@ -84,12 +84,14 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 ### Serverless
 
 1. [Fork](https://github.com/miantiao-me/BroadcastChannel/fork) 此项目到你 GitHub
-2. 在 Cloudflare Workers/Netlify/Vercel 创建项目
+2. 在 Cloudflare Workers/Netlify/Vercel/EdgeOne 创建项目
 3. 选择 `BroadcastChannel` 项目和 `Astro` 框架
 4. 配置环境变量 `CHANNEL` 为你的频道名称。此为最小化配置，更多见 [配置](#configuration)
 5. 保存并部署
 6. 绑定域名（可选）
 7. 更新代码，参考 GitHub 官方文档 [从 Web UI 同步分叉分支](https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)
+
+项目支持 EdgeOne，并会通过 std-env 的 `edgeone_pages` provider 或平台提供的 `EDGEONE_PROJECT_ID`/`EO_MAKERS` 变量自动检测。仅在需要覆盖自动适配器检测时设置 `SERVER_ADAPTER`。
 
 Cloudflare Workers 最小命令：
 
@@ -162,6 +164,8 @@ GOOGLE_SEARCH_SITE=memo.miantiao.me
 ## 高级（一般无需修改）
 TELEGRAM_HOST=telegram.dog
 STATIC_PROXY=
+# 需要时覆盖自动适配器检测。
+SERVER_ADAPTER=
 # 在默认白名单基础上追加代理目标；仅填写域名，以英文逗号分隔（不含协议、端口或路径）。
 TARGET_WHITELIST=a.com,b.com
 ```

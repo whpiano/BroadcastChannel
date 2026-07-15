@@ -47,7 +47,7 @@
 - `TELEGRAM_HOST` defaults in code to `telegram.me`; `.env.example` uses `telegram.dog` as an override example.
 - `STATIC_PROXY` defaults to `/static/` only when unset; set it to an empty string for direct Telegram asset URLs.
 - `astro.config.mjs` selects adapters for Vercel, Cloudflare Workers, Netlify, Node standalone, and EdgeOne; `SERVER_ADAPTER` overrides auto-detection, and Cloudflare Pages is explicitly rejected.
-- EdgeOne detection depends on `HOME=/dev/shm/home` and `TMPDIR=/dev/shm/tmp`; `DOCKER=true` changes Vite SSR `noExternal` behavior.
+- EdgeOne is detected from std-env's `edgeone_pages` provider or platform-provided `EDGEONE_PROJECT_ID`/`EO_MAKERS`; `DOCKER=true` changes Vite SSR `noExternal` behavior.
 - If env behavior changes, update `.env.example` and README docs together.
 
 ## Code and content conventions
