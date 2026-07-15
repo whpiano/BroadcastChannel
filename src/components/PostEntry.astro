@@ -85,7 +85,9 @@ const hasTags = post.tags.length > 0
           data-comments-limit="50"
           data-colorful="1"
           data-color="454545"
-        />
+        >
+          /* Explicit closing avoids an astro-eslint-parser v3 crash. */
+        </script>
       </section>
     )
   }

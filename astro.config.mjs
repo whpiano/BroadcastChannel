@@ -53,7 +53,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: process.env.DOCKER ? !!process.env.DOCKER : undefined,
+      noExternal: (process.env.DOCKER || adapterProvider === 'edgeone') ? true : undefined,
     },
   },
 })
