@@ -2,7 +2,7 @@
 
 ## Sources
 
-- Treat this file as the maintained repo guide; `CLAUDE.md` may lag behind it.
+- Treat this file as the maintained repo guide. `CLAUDE.md` is a symlink to this file for Claude Code compatibility.
 - No repo-local `opencode.json`, `.opencode/`, `.cursor/rules/`, `.cursorrules`, or `.github/copilot-instructions.md` is present.
 - For any visible UI/design change, read `DESIGN.md` first; implementation tokens live in `src/styles/app/**` and `src/styles/content/**`.
 - Theme provenance and third-party acknowledgements are maintained in `NOTICE.md`.

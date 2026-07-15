@@ -6,6 +6,8 @@
 
 [English](./README.md) | 简体中文
 
+**目录：** [特性](#-特性) · [演示](#-演示) · [技术栈](#-技术栈) · [部署](#deployment) · [配置](#configuration) · [主题](#-主题) · [常问问题](#-常问问题) · [赞助](#-赞助)
+
 ## ✨ 特性
 
 - **将 Telegram Channel 转为微博客**
@@ -49,6 +51,7 @@
 - [小众软件的发现](https://talk.appinn.net/)
 - [小报童优惠与排行榜](https://youhui.xiaobaoto.com/)
 - [热干面拌 10 号土豆泥](https://memo.moran.im/)
+- [万事屋工程部](https://t.wanshiwu.fyi/)
 
 ### 平台
 
@@ -71,6 +74,8 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 
 ## 🏗️ 部署
 
+<a id="deployment"></a>
+
 ### Docker
 
 1. `docker pull ghcr.io/miantiao-me/broadcastchannel:main`
@@ -81,10 +86,10 @@ Cloudflare Pages SSR 在当前 Astro 6 + @astrojs/cloudflare v13 下不受支持
 1. [Fork](https://github.com/miantiao-me/BroadcastChannel/fork) 此项目到你 GitHub
 2. 在 Cloudflare Workers/Netlify/Vercel 创建项目
 3. 选择 `BroadcastChannel` 项目和 `Astro` 框架
-4. 配置环境变量 `CHANNEL` 为你的频道名称。此为最小化配置，更多配置见下面的配置项
+4. 配置环境变量 `CHANNEL` 为你的频道名称。此为最小化配置，更多见 [配置](#configuration)
 5. 保存并部署
-6. 绑定域名（可选）。
-7. 更新代码，参考 GitHub 官方文档 [从 Web UI 同步分叉分支](https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)。
+6. 绑定域名（可选）
+7. 更新代码，参考 GitHub 官方文档 [从 Web UI 同步分叉分支](https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)
 
 Cloudflare Workers 最小命令：
 
@@ -99,11 +104,25 @@ Cloudflare Pages SSR 在 Astro 6 + @astrojs/cloudflare v13 下不受支持，请
 
 ## ⚒️ 配置
 
+<a id="configuration"></a>
+
+### 最小配置
+
+只需配置 `CHANNEL`：公开 Telegram 频道用户名（`t.me/` 后面那串字符）。
+
 ```env
-## Telegram 频道用户名，必须配置。 t.me/ 后面那串字符
+CHANNEL=miantiao_me
+```
+
+### 完整参考
+
+可选变量。亦可对照 [`.env.example`](./.env.example)。
+
+```env
+## 必填
 CHANNEL=miantiao_me
 
-## 语言和时区设置，语言选项使用 Intl/BCP 47 locale，例如 zh-CN 或 en
+## 语言与时区（Intl/BCP 47 locale，例如 zh-CN 或 en）
 LOCALE=zh-CN
 TIMEZONE=Asia/Shanghai
 
@@ -111,86 +130,69 @@ TIMEZONE=Asia/Shanghai
 TELEGRAM=miantiao-me
 TWITTER=miantiao-me
 GITHUB=miantiao-me
+MASTODON=mastodon.social/@Mastodon
+BLUESKY=bsky.app
 
-## 下面两个社交媒体需要为 URL
+## 社交媒体 URL（需完整 URL）
 DISCORD=https://DISCORD.com
 PODCAST=https://PODCAST.com
 
-## 可信管理员使用的头部、尾部原始 HTML 注入
-FOOTER_INJECT=
+## 可信管理员原始 HTML 注入（页头 / 页脚）
 HEADER_INJECT=
+FOOTER_INJECT=
 
-## SEO 配置项，可不让搜索引擎索引内容
+## SEO
 NOFOLLOW=false
 NOINDEX=false
 
-## 隐藏 Telegram 频道简介
+## 界面
 HIDE_DESCRIPTION=false
+COMMENTS=true
+REACTIONS=true
+RSS_BEAUTIFY=true
 
-## Telegram 主机名称和静态资源代理，不建议修改
-TELEGRAM_HOST=telegram.dog
-STATIC_PROXY=
+## 标签、链接与导航（英文逗号 / 分号分隔）
+TAGS=标签A,标签B,标签C
+LINKS=Title1,URL1;Title2,URL2;Title3,URL3;
+NAVS=Title1,URL1;Title2,URL2;Title3,URL3;
 
-## 启用谷歌站内搜索
+## 搜索
 GOOGLE_SEARCH_SITE=memo.miantiao.me
 
-## 启用标签页, 标签使用英文逗号分割
-TAGS=标签A,标签B,标签C
-
-## 展示评论
-COMMENTS=true
-
-## 展示 Reactions
-REACTIONS=true
-
-## 链接页面中的超链接, 使用英文逗号和分号分割
-LINKS=Title1,URL1;Title2,URL3;Title3,URL3;
-
-## 站点导航项，使用英文逗号和分号分割
-NAVS=Title1,URL1;Title2,URL3;Title3,URL3;
-
-## 启用 RSS 美化
-RSS_BEAUTIFY=true
+## 高级（一般无需修改）
+TELEGRAM_HOST=telegram.dog
+STATIC_PROXY=
 ```
 
 ## 🎨 主题
 
-BroadcastChannel 始终加载完整的 Base 主题，并提供有限的 Bear CSS 兼容面。不配置即使用 Base，也可以且只能加载一个内置覆盖主题：
+始终加载完整 Base 主题。不配置 `HEADER_INJECT` 即使用 Base；也可以且只能加载 **一个** 内置覆盖主题：
 
-- `/themes/sepia.css`
-- `/themes/aria.css`
-- `/themes/terminal-amber.css`
-- `/themes/terminal-green.css`
-- `/themes/terminal-cyan.css`
-- `/themes/terminal-magenta.css`
-
-例如：
+| 主题             | 路径                           |
+| ---------------- | ------------------------------ |
+| Sepia            | `/themes/sepia.css`            |
+| Aria             | `/themes/aria.css`             |
+| Terminal Amber   | `/themes/terminal-amber.css`   |
+| Terminal Green   | `/themes/terminal-green.css`   |
+| Terminal Cyan    | `/themes/terminal-cyan.css`    |
+| Terminal Magenta | `/themes/terminal-magenta.css` |
 
 ```env
 HEADER_INJECT='<link rel="stylesheet" href="/themes/aria.css">'
 ```
 
-`/themes/terminal-base.css` 仅供四种 Terminal 配色内部共享，不可单独加载；项目不存在 `/themes/terminal.css`。所有精确配置、明暗模式行为、平台环境变量值、自定义 CSS 和可信管理员安全边界请参阅 **[THEMES.md](./THEMES.md)**。
+不要直接加载 `/themes/terminal-base.css`；项目不存在 `/themes/terminal.css`。
 
-Base 兼容以下 Bear 变量：
-
-- 布局与字体：`--width`、`--font-main`、`--font-secondary`、`--font-scale`
-- 颜色：`--background-color`、`--heading-color`、`--text-color`、`--link-color`、`--visited-color`、`--code-background-color`、`--code-color`、`--blockquote-color`
-
-`--width` 表示最大内容宽度；body 的水平 padding 计算在该宽度之外。
-
-面向 Bear 的公共样式 hook 为 `body.home`、`body.post`、`body.page`、`header > a.title > h1`、`header > nav`、`main`、`footer`、`.tags`、`pre.code`，以及用于入站内容兼容的 `.highlight`。
-
-BroadcastChannel 扩展包括 `body.feed`、`ol.posts-feed`、`.post-entry`、`p.tags.post-tags`、Reaction、评论和 Telegram widgets。兼容范围是有意限定的，不代表官方或 100% 兼容 Bear。Feed 页面保留完整 Telegram 内容流；项目不会新增 `/blog` 或 `/feed` 路由，也不会实现 Bear 的 `ul.blog-posts` 日期加标题结构。Post 详情标题继续仅供辅助技术读取，也不会伪造 Subscribe 表单。
+完整配置、明暗模式、平台控制台写法、自定义 CSS 与安全边界见 **[THEMES.md](./THEMES.md)**。主题归属见 **[NOTICE.md](./NOTICE.md)**。
 
 ## 🙋🏻 常问问题
 
 1. 为什么部署后内容为空？
-   - 检查频道是否是公开的，必须是公开的
-   - 频道用户名是字符串，不是数字
-   - 关闭频道 Restricting Saving Content 设置项
-   - 修改完环境变量后需要重新部署
-   - Telegram 会屏蔽一些敏感频道的公开展示， 可以通过访问 `https://t.me/s/频道用户名` 确认
+   - 频道必须是**公开**的
+   - 频道用户名是**字符串**，不是数字
+   - 关闭频道 **Restricting Saving Content** 设置
+   - 修改环境变量后需要**重新部署**
+   - Telegram 会屏蔽部分敏感频道的公开展示，可访问 `https://t.me/s/频道用户名` 确认
 
 ## ☕ 赞助
 

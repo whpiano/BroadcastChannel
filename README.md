@@ -6,6 +6,8 @@
 
 English | [简体中文](./README.zh-cn.md)
 
+**Contents:** [Features](#-features) · [Demo](#-demo) · [Tech Stack](#-tech-stack) · [Deployment](#deployment) · [Configuration](#configuration) · [Themes](#-themes) · [FAQs](#-faqs) · [Sponsor](#-sponsor)
+
 ## ✨ Features
 
 - **Turn your Telegram Channel into a MicroBlog**
@@ -72,6 +74,8 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 
 ## 🏗️ Deployment
 
+<a id="deployment"></a>
+
 ### Docker
 
 1. `docker pull ghcr.io/miantiao-me/broadcastchannel:main`
@@ -82,10 +86,10 @@ For detailed tutorials, see [Deploy your Astro site](https://docs.astro.build/en
 1. [Fork](https://github.com/miantiao-me/BroadcastChannel/fork) this project to your GitHub
 2. Create a project on Cloudflare Workers/Netlify/Vercel
 3. Select the `BroadcastChannel` project and the `Astro` framework
-4. Configure the environment variable `CHANNEL` with your channel name. This is the minimal configuration, for more configurations see the options below
+4. Configure the environment variable `CHANNEL` with your channel name. This is the minimal configuration; see [Configuration](#configuration) for more
 5. Save and deploy
-6. Bind a domain (optional).
-7. Update code, refer to the official GitHub documentation [Syncing a fork branch from the web UI](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui).
+6. Bind a domain (optional)
+7. Update code, refer to the official GitHub documentation [Syncing a fork branch from the web UI](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui)
 
 Cloudflare Workers minimal commands:
 
@@ -100,100 +104,95 @@ Cloudflare Pages SSR is not supported with Astro 6 + @astrojs/cloudflare v13. Mi
 
 ## ⚒️ Configuration
 
+<a id="configuration"></a>
+
+### Minimal
+
+Only `CHANNEL` is required. It is the public Telegram channel username (the string after `t.me/`).
+
 ```env
-## Telegram Channel Username, must be configured. The string of characters following t.me/
+CHANNEL=miantiao_me
+```
+
+### Full reference
+
+Optional variables. Also see [`.env.example`](./.env.example).
+
+```env
+## Required
 CHANNEL=miantiao_me
 
-## Language and timezone settings. Use an Intl/BCP 47 locale, for example en or zh-CN
+## Language and timezone (Intl/BCP 47 locale, e.g. en or zh-CN)
 LOCALE=en
 TIMEZONE=America/New_York
 
-## Social media usernames
+## Social usernames
 TELEGRAM=miantiao-me
 TWITTER=miantiao-me
 GITHUB=miantiao-me
 MASTODON=mastodon.social/@Mastodon
 BLUESKY=bsky.app
 
-## The following two social media need to be URLs
+## Social URLs (full URLs required)
 DISCORD=https://DISCORD.com
 PODCAST=https://PODCAST.com
 
-## Trusted-administrator header and footer raw HTML injection
-FOOTER_INJECT=
+## Trusted-admin raw HTML injection (header / footer)
 HEADER_INJECT=
+FOOTER_INJECT=
 
-## SEO configuration options, can prevent search engines from indexing content
+## SEO
 NOFOLLOW=false
 NOINDEX=false
 
-## Hide Telegram channel description
+## UI
 HIDE_DESCRIPTION=false
+COMMENTS=true
+REACTIONS=true
+RSS_BEAUTIFY=true
 
-## Telegram host name and static resource proxy, not recommended to modify
-TELEGRAM_HOST=telegram.dog
-STATIC_PROXY=
+## Tags, links, and navigation (comma / semicolon separated)
+TAGS=tag1,tag2,tag3
+LINKS=Title1,URL1;Title2,URL2;Title3,URL3;
+NAVS=Title1,URL1;Title2,URL2;Title3,URL3;
 
-## Enable Google Site Search
+## Search
 GOOGLE_SEARCH_SITE=memo.miantiao.me
 
-## Enable tags page, separate tags with commas
-TAGS=tag1,tag2,tag3
-
-## Show comments
-COMMENTS=true
-
-## Show reactions
-REACTIONS=true
-
-## List of links in the Links page, Separate using commas and semicolons
-LINKS=Title1,URL1;Title2,URL3;Title3,URL3;
-
-## Site Navigation Items, separate using commas and semicolons
-NAVS=Title1,URL1;Title2,URL3;Title3,URL3;
-
-## Enable RSS beautify
-RSS_BEAUTIFY=true
+## Advanced (usually leave as-is)
+TELEGRAM_HOST=telegram.dog
+STATIC_PROXY=
 ```
 
 ## 🎨 Themes
 
-BroadcastChannel always loads its complete Base theme, which provides a limited Bear CSS compatibility surface. Use Base without configuration, or load exactly one built-in override:
+Base is always loaded. Leave `HEADER_INJECT` empty to use Base, or load **exactly one** built-in override:
 
-- `/themes/sepia.css`
-- `/themes/aria.css`
-- `/themes/terminal-amber.css`
-- `/themes/terminal-green.css`
-- `/themes/terminal-cyan.css`
-- `/themes/terminal-magenta.css`
-
-For example:
+| Theme            | Path                           |
+| ---------------- | ------------------------------ |
+| Sepia            | `/themes/sepia.css`            |
+| Aria             | `/themes/aria.css`             |
+| Terminal Amber   | `/themes/terminal-amber.css`   |
+| Terminal Green   | `/themes/terminal-green.css`   |
+| Terminal Cyan    | `/themes/terminal-cyan.css`    |
+| Terminal Magenta | `/themes/terminal-magenta.css` |
 
 ```env
 HEADER_INJECT='<link rel="stylesheet" href="/themes/aria.css">'
 ```
 
-`/themes/terminal-base.css` is shared internally by the four Terminal palettes and must not be loaded directly; there is no `/themes/terminal.css`. See **[THEMES.md](./THEMES.md)** for every exact configuration, light/dark behavior, platform environment-variable values, custom CSS, and the trusted-administrator security boundary.
+Do not load `/themes/terminal-base.css` directly; there is no `/themes/terminal.css`.
 
-The Base theme supports these Bear variables:
-
-- Layout and type: `--width`, `--font-main`, `--font-secondary`, `--font-scale`
-- Colors: `--background-color`, `--heading-color`, `--text-color`, `--link-color`, `--visited-color`, `--code-background-color`, `--code-color`, `--blockquote-color`
-
-`--width` is the maximum content width; the body's horizontal padding is added outside that width.
-
-The Bear-facing public hooks are `body.home`, `body.post`, `body.page`, `header > a.title > h1`, `header > nav`, `main`, `footer`, `.tags`, `pre.code`, and `.highlight` for inbound content compatibility.
-
-BroadcastChannel extensions include `body.feed`, `ol.posts-feed`, `.post-entry`, `p.tags.post-tags`, reactions, comments, and Telegram widgets. Compatibility is intentionally limited rather than official or 100% Bear compatibility. Feed pages keep the complete Telegram content stream; the project does not add `/blog` or `/feed` routes or implement Bear's `ul.blog-posts` date-and-title structure. Post detail keeps its title visually hidden, and no Subscribe form is synthesized.
+Full configuration, light/dark behavior, platform dashboard values, custom CSS, and security notes: **[THEMES.md](./THEMES.md)**. Theme credits: **[NOTICE.md](./NOTICE.md)**.
 
 ## 🙋🏻 FAQs
 
 1. Why is the content empty after deployment?
-   - Check if the channel is public, it must be public
-   - The channel username is a string, not a number
-   - Turn off the "Restricting Saving Content" setting in the channel
-   - Redeploy after modifying environment variables
-   - Telegram blocks public display of some sensitive channels, you can verify by visiting `https://t.me/s/channelusername`.
+   - The channel must be **public**
+   - The channel username is a **string**, not a number
+   - Turn off **Restricting Saving Content** in the channel settings
+   - Redeploy after changing environment variables
+   - Telegram may block public display of some sensitive channels; verify at `https://t.me/s/channelusername`
 
 ## ☕ Sponsor
 
