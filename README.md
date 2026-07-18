@@ -209,5 +209,5 @@ Full configuration, light/dark behavior, platform dashboard values, custom CSS, 
 ## ☕ Sponsor
 
 1. [Follow me on Telegram](https://t.me/miantiao_me)
-2. [Follow me on 𝕏](https://404.li/kai)
+2. [Follow me on 𝕏](https://404.li/x)
 3. [Sponsor me on GitHub](https://github.com/sponsors/miantiao-me)
